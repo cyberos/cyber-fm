@@ -24,9 +24,9 @@
 #include <QStringList>
 #include <QDir>
 
+#include "dirlister.h"
 #include "dirselection.h"
 #include "fileitem.h"
-#include "fileloader.h"
 
 class FolderListModel : public QAbstractListModel
 {
@@ -66,6 +66,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    QDir::Filters dirFilters() const;
     int count() const { return rowCount(QModelIndex()); }
 
     void notifyItemChanged(int index);
@@ -87,15 +88,14 @@ signals:
     void pathChanged();
     void statusChanged();
 
-private:
-    QDir::Filters dirFilters() const;
-
 private slots:
     void onItemAdded(FileItem *item);
+    void onItemsRemove(FileItems);
+    void onItemsAdded(FileItems);
 
 private:
     FileItems m_datas;
-    FileLoader *m_fileLoader;
+    DirLister *m_dirLister;
     DirSelection *m_selection;
 
     QString m_currentDir;

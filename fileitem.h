@@ -30,6 +30,8 @@ class FileItem
 public:
     explicit FileItem(const QString &filePath);
 
+    void refresh();
+
     QString filePath() const;
     QString fileName() const;
     QString baseName() const;
@@ -50,7 +52,7 @@ public:
     }
 
     inline bool operator ==(const FileItem &fileItem) const {
-        return (m_filePath == fileItem.m_filePath) && isDir() == fileItem.isDir();
+        return (m_filePath == fileItem.m_filePath) && m_isDir == fileItem.m_isDir;
     }
 
 private:

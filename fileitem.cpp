@@ -25,14 +25,19 @@ QMimeDatabase FileItem::mimeDatabase;
 FileItem::FileItem(const QString &filePath)
     : m_filePath(filePath)
 {
-    QFileInfo fileInfo(filePath);
+    refresh();
+    m_isSelected = false;
+}
+
+void FileItem::refresh()
+{
+    QFileInfo fileInfo(m_filePath);
     m_fileName = fileInfo.fileName();
     m_baseName = fileInfo.baseName();
     m_size = fileInfo.size();
     m_isDir = fileInfo.isDir();
     m_created = fileInfo.birthTime();
     m_lastModified = fileInfo.lastModified();
-    m_isSelected = false;
 }
 
 QString FileItem::filePath() const

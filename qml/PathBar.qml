@@ -80,7 +80,7 @@ Item {
         text: folderModel.path
 
         onAccepted: {
-            folderModel.openPath(addressEdit.text)
+            folderModel.setPath(addressEdit.text)
             hideTextField()
         }
 

@@ -22,7 +22,7 @@
 
 FolderListModel::FolderListModel(QObject *parent)
     : QAbstractListModel(parent)
-    , m_fileLoader(new FileLoader)
+    , m_dirLister(new DirLister(this, &m_datas))
     , m_selection(new DirSelection(this, &m_datas))
     , m_status(FolderListModel::Null)
 {
@@ -30,7 +30,9 @@ FolderListModel::FolderListModel(QObject *parent)
     qRegisterMetaType<FileItems>("QList<FileItem>");
     qRegisterMetaType<FolderListModel::Status>("FolderListModel::Status");
 
-    connect(m_fileLoader, &FileLoader::itemReady, this, &FolderListModel::onItemAdded);
+    connect(m_dirLister, &DirLister::itemReady, this, &FolderListModel::onItemAdded);
+    connect(m_dirLister, &DirLister::itemsRemove, this, &FolderListModel::onItemsRemove);
+    connect(m_dirLister, &DirLister::itemsAdded, this, &FolderListModel::onItemsAdded);
 
     connect(this, &FolderListModel::rowCountChanged, this, &FolderListModel::countChanged);
 
@@ -120,6 +122,19 @@ QHash<int, QByteArray> FolderListModel::roleNames() const
     return roleNames;
 }
 
+QDir::Filters FolderListModel::dirFilters() const
+{
+    QDir::Filters filter;
+    // show files
+    filter = filter | QDir::Files;
+    // show dirs
+    filter = filter | QDir::AllDirs | QDir::Drives;
+    // showDotAndDotDot
+    filter = filter | QDir::NoDot | QDir::NoDotDot;
+
+    return filter;
+}
+
 void FolderListModel::notifyItemChanged(int index)
 {
     QModelIndex idx = QAbstractListModel::index(index, 0);
@@ -169,7 +184,7 @@ void FolderListModel::setPath(const QString &filePath)
     m_datas.clear();
     endResetModel();
 
-    m_fileLoader->setPath(filePath, dirFilters());
+    m_dirLister->setPath(filePath);
 
     emit pathChanged();
     emit rowCountChanged();
@@ -202,22 +217,9 @@ void FolderListModel::openIndex(int index)
 
 void FolderListModel::openPath(const QString &path)
 {
-    // Open from pathbar
+    // Open from pathbar item.
     QString newPath = m_currentDir.left(m_currentDir.indexOf(path) + path.length());
     setPath(newPath);
-}
-
-QDir::Filters FolderListModel::dirFilters() const
-{
-    QDir::Filters filter;
-    // show files
-    filter = filter | QDir::Files;
-    // show dirs
-    filter = filter | QDir::AllDirs | QDir::Drives;
-    // showDotAndDotDot
-    filter = filter | QDir::NoDot | QDir::NoDotDot;
-
-    return filter;
 }
 
 void FolderListModel::onItemAdded(FileItem *item)
@@ -227,4 +229,23 @@ void FolderListModel::onItemAdded(FileItem *item)
     endInsertRows();
 
     emit rowCountChanged();
+}
+
+void FolderListModel::onItemsRemove(FileItems items)
+{
+    for (FileItem *item : items) {
+        int index = m_datas.indexOf(item);
+        if (index != -1) {
+            beginRemoveRows(QModelIndex(), index, index);
+            m_datas.removeAt(index);
+            endRemoveRows();
+        }
+    }
+}
+
+void FolderListModel::onItemsAdded(FileItems items)
+{
+    for (FileItem *item : items) {
+        onItemAdded(item);
+    }
 }
