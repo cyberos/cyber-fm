@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/SideBar.qml</file>
+        <file>qml/SidebarItem.qml</file>
+        <file>qml/FolderPage.qml</file>
+        <file>qml/FolderListView.qml</file>
+        <file>qml/PathBar.qml</file>
+    </qresource>
+</RCC>
