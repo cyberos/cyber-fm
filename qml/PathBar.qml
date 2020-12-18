@@ -35,7 +35,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 anchors.margins: 2
-                color: Meui.Theme.darkMode ? "#707074" : "#FFFFFF"
+                color: Meui.Theme.highlightColor
                 radius: Meui.Theme.smallRadius
                 visible: index === listView.count - 1
 
@@ -54,6 +54,7 @@ Item {
                 id: label
                 text: modelData
                 anchors.centerIn: parent
+                font.bold: index === listView.count - 1
             }
         }
 
