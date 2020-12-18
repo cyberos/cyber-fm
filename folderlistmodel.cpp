@@ -24,7 +24,7 @@ FolderListModel::FolderListModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_dirLister(new DirLister(this, &m_datas))
     , m_selection(new DirSelection(this, &m_datas))
-    , m_status(FolderListModel::Null)
+    , m_mimeAppManager(new MimeAppManager)
 {
     // Init
     qRegisterMetaType<FileItems>("QList<FileItem>");
@@ -190,11 +190,6 @@ void FolderListModel::setPath(const QString &filePath)
     emit rowCountChanged();
 }
 
-FolderListModel::Status FolderListModel::status() const
-{
-    return m_status;
-}
-
 DirSelection *FolderListModel::selection() const
 {
     return m_selection;
@@ -220,6 +215,11 @@ void FolderListModel::openPath(const QString &path)
     // Open from pathbar item.
     QString newPath = m_currentDir.left(m_currentDir.indexOf(path) + path.length());
     setPath(newPath);
+}
+
+void FolderListModel::openTerminal(const QString &path)
+{
+    m_mimeAppManager->launchTerminal(path);
 }
 
 void FolderListModel::onItemAdded(FileItem *item)

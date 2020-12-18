@@ -27,12 +27,12 @@
 #include "dirlister.h"
 #include "dirselection.h"
 #include "fileitem.h"
+#include "xdgmimeapps.h"
 
 class FolderListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QString path READ path NOTIFY pathChanged)
-    Q_PROPERTY(Status status READ status NOTIFY statusChanged)
     Q_PROPERTY(DirSelection *selection READ selection CONSTANT)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QStringList pathList READ pathList NOTIFY pathChanged)
@@ -74,13 +74,14 @@ public:
     QString path() const;
     Q_INVOKABLE void setPath(const QString &filePath);
 
-    Status status() const;
     DirSelection *selection() const;
 
     QStringList pathList() const;
 
     Q_INVOKABLE void openIndex(int index);
     Q_INVOKABLE void openPath(const QString &path);
+
+    Q_INVOKABLE void openTerminal(const QString &path);
 
 signals:
     void rowCountChanged() const;
@@ -98,9 +99,10 @@ private:
     DirLister *m_dirLister;
     DirSelection *m_selection;
 
+    MimeAppManager *m_mimeAppManager;
+
     QString m_currentDir;
     QStringList m_pathList;
-    Status m_status;
 };
 
 #endif // FOLDERLISTMODEL_H

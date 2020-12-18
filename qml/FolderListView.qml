@@ -12,6 +12,9 @@ ListView {
                                        Meui.Theme.textColor.g,
                                        Meui.Theme.textColor.b, 0.1)
 
+    signal itemPressed
+    signal rightClicked
+
     Layout.fillHeight: true
     Layout.fillWidth: true
     leftMargin: Meui.Units.largeSpacing
@@ -65,9 +68,8 @@ ListView {
         acceptedButtons:  Qt.RightButton | Qt.LeftButton
 
         onClicked: {
-            if (mouse.button == Qt.RightButton) {
-                selection.clear()
-            }
+            if (mouse.button == Qt.RightButton)
+                control.rightClicked()
         }
 
         onPressed: {
@@ -164,6 +166,8 @@ ListView {
                 selection.toggleIndex(index)
             }
             onDoubleClicked: folderModel.openIndex(index)
+
+            onPressed: control.itemPressed
 
             onEntered: {
                 hovered = true
