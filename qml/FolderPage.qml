@@ -9,6 +9,10 @@ Item {
         id: folderMenu
     }
 
+    FolderItemMenu {
+        id: folderItemMenu
+    }
+
     FolderListView {
         anchors.fill: parent
 

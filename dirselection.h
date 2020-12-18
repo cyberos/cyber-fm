@@ -38,6 +38,8 @@ public slots:
     void selectAll();
     void clear();
 
+    QList<int> selectedIndexes() const;
+
 signals:
     void selectionChanged(int);
 

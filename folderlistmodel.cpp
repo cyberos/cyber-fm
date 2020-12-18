@@ -122,6 +122,11 @@ QHash<int, QByteArray> FolderListModel::roleNames() const
     return roleNames;
 }
 
+QVariant FolderListModel::get(int row, int role)
+{
+    return data(index(row, 0), role);
+}
+
 QDir::Filters FolderListModel::dirFilters() const
 {
     QDir::Filters filter;

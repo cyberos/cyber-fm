@@ -22,6 +22,7 @@ Menu {
     MenuItem {
         id: selectAllAction
         text: qsTr("Select All")
+        onTriggered: selection.selectAll()
     }
 
     MenuSeparator { }

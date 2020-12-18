@@ -7,5 +7,7 @@
         <file>qml/FolderListView.qml</file>
         <file>qml/PathBar.qml</file>
         <file>qml/FolderMenu.qml</file>
+        <file>qml/FolderItemMenu.qml</file>
+        <file>qml/FolderListDelegate.qml</file>
     </qresource>
 </RCC>

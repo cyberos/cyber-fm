@@ -65,3 +65,16 @@ void DirSelection::clear()
         }
     }
 }
+
+QList<int> DirSelection::selectedIndexes() const
+{
+    QList<int> result;
+
+    for (int i = 0; i < m_fileItems->size(); ++i) {
+        if (m_fileItems->at(i)->isSelected()) {
+            result.append(i);
+        }
+    }
+
+    return result;
+}

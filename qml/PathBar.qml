@@ -53,6 +53,7 @@ Item {
             Label {
                 id: label
                 text: modelData
+                color: index === listView.count - 1 ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
                 anchors.centerIn: parent
                 font.bold: index === listView.count - 1
             }

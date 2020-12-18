@@ -55,6 +55,7 @@ public:
         ModifiedDateRole,
         IsSelectedRole
     };
+    Q_ENUM(Roles);
 
     enum Status { Null, Ready, Loading };
     Q_ENUM(Status);
@@ -65,6 +66,8 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
+
+    Q_INVOKABLE QVariant get(int row, int role);
 
     QDir::Filters dirFilters() const;
     int count() const { return rowCount(QModelIndex()); }
