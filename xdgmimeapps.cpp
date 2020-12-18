@@ -385,10 +385,14 @@ QVariantList MimeAppManager::recommendedApps(const QUrl &url)
         const QString &filePath = url.toString();
 
         for (const QString &path : getRecommendedAppsByFilePath(filePath)) {
-            DesktopFile desktop(path);
+            XdgDesktopFile desktop(path);
+
+            if (desktop.valid())
+                continue;
+
             QVariantMap item;
-            item["icon"] = desktop.getIcon();
-            item["name"] = desktop.getDisplayName();
+            item["icon"] = desktop.value("IconName").toString();
+            item["name"] = desktop.localeName();
             item["desktopFile"] = path;
 
             list << item;

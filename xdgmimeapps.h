@@ -26,7 +26,6 @@
 #include <QTimer>
 #include <QMap>
 
-#include "desktopfile.h"
 #include "xdgdesktopfile.h"
 
 class QMimeType;

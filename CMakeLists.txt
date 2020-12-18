@@ -23,7 +23,6 @@ add_executable(cyber-fm
     dateutils.cpp
     dirselection.cpp
     dirlister.cpp
-    desktopfile.cpp
     xdgmimeapps.cpp
     xdgdesktopfile.cpp
     qml.qrc
