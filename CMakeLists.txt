@@ -19,6 +19,7 @@ add_executable(cyber-fm
     folderlistmodel.cpp
     fileitem.cpp
     fileloader.cpp
+    filelauncher.cpp
     placesmodel.cpp
     dateutils.cpp
     dirselection.cpp

@@ -18,10 +18,12 @@
  */
 
 #include "folderlistmodel.h"
+#include <QDesktopServices>
 #include <QDebug>
 
 FolderListModel::FolderListModel(QObject *parent)
     : QAbstractListModel(parent)
+    , m_fileLauncher(FileLauncher::self())
     , m_dirLister(new DirLister(this, &m_datas))
     , m_selection(new DirSelection(this, &m_datas))
     , m_mimeAppManager(new MimeAppManager)
@@ -94,6 +96,12 @@ QVariant FolderListModel::data(const QModelIndex &index, int role) const
     case IsSelectedRole:
         return item->isSelected();
         break;
+    case isExecutableRole:
+        return item->isExecutable();
+        break;
+    case isRunnableRole:
+        return item->isRunnable();
+        break;
     default:
         break;
     }
@@ -119,6 +127,8 @@ QHash<int, QByteArray> FolderListModel::roleNames() const
     roleNames[CreationDateRole] = "creationDate";
     roleNames[ModifiedDateRole] = "modifiedDate";
     roleNames[IsSelectedRole] = "isSelected";
+    roleNames[isExecutableRole] = "isExecutable";
+    roleNames[isRunnableRole] = "isRunnable";
     return roleNames;
 }
 
@@ -200,6 +210,11 @@ DirSelection *FolderListModel::selection() const
     return m_selection;
 }
 
+FileLauncher *FolderListModel::fileLauncher() const
+{
+    return m_fileLauncher;
+}
+
 QStringList FolderListModel::pathList() const
 {
     return m_pathList;
@@ -212,7 +227,49 @@ void FolderListModel::openIndex(int index)
     // Open Directory.
     if (item->isDir()) {
         setPath(item->filePath());
+    } else {
+        if (item->isRunnable()) {
+            return;
+        }
     }
+}
+
+void FolderListModel::runIndex(int index)
+{
+    FileItem *item = m_datas.at(index);
+
+    if (!item->isRunnable())
+        return;
+
+    QFileInfo fileInfo(item->filePath());
+    if (!fileInfo.isExecutable()) {
+        QFile file(item->filePath());
+        file.setPermissions(file.permissions() | QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
+    }
+
+    m_fileLauncher->launchExecutable(item->filePath());
+}
+
+void FolderListModel::openItem(int index)
+{
+    FileItem *item = m_datas.at(index);
+
+    QString defaultAppDesktopFile = m_mimeAppManager->getDefaultAppByMimeType(item->mimeType());
+    // If no default application is found,
+    // look for the first one of the frequently used applications.
+    if (defaultAppDesktopFile.isEmpty()) {
+        QStringList recommendApps = m_mimeAppManager->getRecommendedAppsByMimeType(item->mimeType());
+        if (recommendApps.count() > 0) {
+            defaultAppDesktopFile = recommendApps.first();
+        }
+    }
+
+    if (!defaultAppDesktopFile.isEmpty()) {
+        m_fileLauncher->launchApp(defaultAppDesktopFile, item->filePath());
+        return;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(item->filePath()));
 }
 
 void FolderListModel::openPath(const QString &path)

@@ -27,6 +27,7 @@
 #include "dirlister.h"
 #include "dirselection.h"
 #include "fileitem.h"
+#include "filelauncher.h"
 #include "xdgmimeapps.h"
 
 class FolderListModel : public QAbstractListModel
@@ -34,6 +35,7 @@ class FolderListModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(QString path READ path NOTIFY pathChanged)
     Q_PROPERTY(DirSelection *selection READ selection CONSTANT)
+    Q_PROPERTY(FileLauncher *fileLauncher READ fileLauncher CONSTANT)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QStringList pathList READ pathList NOTIFY pathChanged)
 
@@ -53,7 +55,9 @@ public:
         IconSourceRole,
         CreationDateRole,
         ModifiedDateRole,
-        IsSelectedRole
+        IsSelectedRole,
+        isExecutableRole,
+        isRunnableRole
     };
     Q_ENUM(Roles);
 
@@ -78,10 +82,13 @@ public:
     Q_INVOKABLE void setPath(const QString &filePath);
 
     DirSelection *selection() const;
+    FileLauncher *fileLauncher() const;
 
     QStringList pathList() const;
 
     Q_INVOKABLE void openIndex(int index);
+    Q_INVOKABLE void runIndex(int index);
+    Q_INVOKABLE void openItem(int index);
     Q_INVOKABLE void openPath(const QString &path);
 
     Q_INVOKABLE void openTerminal(const QString &path);
@@ -99,6 +106,7 @@ private slots:
 
 private:
     FileItems m_datas;
+    FileLauncher *m_fileLauncher;
     DirLister *m_dirLister;
     DirSelection *m_selection;
 

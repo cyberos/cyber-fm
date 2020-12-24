@@ -152,7 +152,23 @@ ListView {
 
     delegate: FolderListDelegate {
         onPressed: control.itemPressed()
-        onDoubleClicked: folderModel.openIndex(index)
+
+        onDoubleClicked: {
+           if (fileIsDir) {
+                folderModel.openIndex(index)
+                return
+           }
+
+           // Run executable binary file.
+            if (isRunnable) {
+                execPromptDialog.index = index
+                execPromptDialog.show()
+                return
+            }
+
+            // Other mimetype file.
+            folderModel.openItem(index)
+        }
 
         onLeftClicked: {
             selection.clear()

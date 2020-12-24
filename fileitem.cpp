@@ -24,9 +24,10 @@ QMimeDatabase FileItem::mimeDatabase;
 
 FileItem::FileItem(const QString &filePath)
     : m_filePath(filePath)
+    , m_isSelected(false)
+    , m_isExecutable(false)
 {
     refresh();
-    m_isSelected = false;
 }
 
 void FileItem::refresh()
@@ -38,6 +39,7 @@ void FileItem::refresh()
     m_isDir = fileInfo.isDir();
     m_created = fileInfo.birthTime();
     m_lastModified = fileInfo.lastModified();
+    m_isExecutable = fileInfo.isExecutable();
 }
 
 QString FileItem::filePath() const
@@ -90,4 +92,23 @@ bool FileItem::setSelection(bool selected)
     bool result = selected != isSelected();
     m_isSelected = selected;
     return result;
+}
+
+bool FileItem::isExecutable() const
+{
+    return m_isExecutable;
+}
+
+bool FileItem::isRunnable() const
+{
+    const QString &mimeName = mimeType().name();
+
+    if (mimeName == "application/x-executable" ||
+        mimeName == "application/x-sharedlib" ||
+        mimeName == "application/x-iso9660-appimage" ||
+        mimeName == "application/vnd.appimage") {
+        return true;
+    }
+
+    return false;
 }

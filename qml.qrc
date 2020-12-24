@@ -9,5 +9,6 @@
         <file>qml/FolderMenu.qml</file>
         <file>qml/FolderItemMenu.qml</file>
         <file>qml/FolderListDelegate.qml</file>
+        <file>qml/ExecPromptDialog.qml</file>
     </qresource>
 </RCC>

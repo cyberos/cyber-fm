@@ -11,6 +11,7 @@ Menu {
     onVisibleChanged: {
         if (visible) {
             var indexes = selection.selectedIndexes();
+
             if (indexes.length >= 2) {
                 // Does not support renaming of multiple files.
                 renameAction.enabled = false
@@ -25,8 +26,7 @@ Menu {
                 }
                 openInTerminal.visible = enableTerminalAction
             } else {
-                var index = indexes[0]
-                openInTerminal.visible = folderModel.get(indexes[i], FolderListModel.FileIsDirRole)
+                openInTerminal.visible = folderModel.get(indexes[0], FolderListModel.FileIsDirRole)
                 renameAction.enabled = true
             }
         }

@@ -47,6 +47,9 @@ public:
     bool isSelected() const;
     bool setSelection(bool selected);
 
+    bool isExecutable() const;
+    bool isRunnable() const;
+
     inline bool operator !=(const FileItem &fileItem) const {
         return !operator==(fileItem);
     }
@@ -68,6 +71,7 @@ private:
 
     bool m_isDir;
     bool m_isSelected;
+    bool m_isExecutable;
 };
 
 typedef QList<FileItem *> FileItems;

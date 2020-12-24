@@ -13,6 +13,12 @@ Item {
         id: folderItemMenu
     }
 
+    ExecPromptDialog {
+        id: execPromptDialog
+
+        onAccepted: folderModel.runIndex(index)
+    }
+
     FolderListView {
         anchors.fill: parent
 
