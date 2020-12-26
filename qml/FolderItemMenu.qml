@@ -39,10 +39,12 @@ Menu {
         onTriggered: {
             // TODO: Multi
             var indexes = selection.selectedIndexes()
-            for (var i = 0; i < indexes.length; ++i) {
-                folderModel.openIndex(indexes[i])
-                break;
-            }
+            // for (var i = 0; i < indexes.length; ++i) {
+            //     folderModel.openIndex(indexes[i])
+            //     break;
+            // }
+
+            openItem(indexes[0])
         }
     }
 

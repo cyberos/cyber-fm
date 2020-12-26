@@ -96,10 +96,10 @@ QVariant FolderListModel::data(const QModelIndex &index, int role) const
     case IsSelectedRole:
         return item->isSelected();
         break;
-    case isExecutableRole:
+    case IsExecutableRole:
         return item->isExecutable();
         break;
-    case isRunnableRole:
+    case IsRunnableRole:
         return item->isRunnable();
         break;
     default:
@@ -127,8 +127,8 @@ QHash<int, QByteArray> FolderListModel::roleNames() const
     roleNames[CreationDateRole] = "creationDate";
     roleNames[ModifiedDateRole] = "modifiedDate";
     roleNames[IsSelectedRole] = "isSelected";
-    roleNames[isExecutableRole] = "isExecutable";
-    roleNames[isRunnableRole] = "isRunnable";
+    roleNames[IsExecutableRole] = "isExecutable";
+    roleNames[IsRunnableRole] = "isRunnable";
     return roleNames;
 }
 

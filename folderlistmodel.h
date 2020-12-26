@@ -56,8 +56,8 @@ public:
         CreationDateRole,
         ModifiedDateRole,
         IsSelectedRole,
-        isExecutableRole,
-        isRunnableRole
+        IsExecutableRole,
+        IsRunnableRole
     };
     Q_ENUM(Roles);
 
