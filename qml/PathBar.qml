@@ -6,9 +6,9 @@ import MeuiKit 1.0 as Meui
 Item {
     Rectangle {
         anchors.fill: parent
-        color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.viewBackgroundColor, 1.02)
+        color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.secondBackgroundColor, 1.02)
         radius: Meui.Theme.smallRadius
-        border.color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.viewBackgroundColor, 1.05)
+        border.color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.secondBackgroundColor, 1.05)
     }
 
     ListView {

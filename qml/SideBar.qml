@@ -14,7 +14,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: Meui.Theme.viewBackgroundColor
+        color: Meui.Theme.secondBackgroundColor
     }
 
     RowLayout {
