@@ -7,7 +7,7 @@ import Cyber.FileManager 1.0
 
 import MeuiKit 1.0 as Meui
 
-Window {
+Meui.Window {
     width: 1080
     height: 645
     minimumWidth: 900
@@ -21,17 +21,17 @@ Window {
         id: folderModel
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: Meui.Theme.backgroundColor
-    }
+    // Rectangle {
+    //     anchors.fill: parent
+    //     color: Meui.Theme.backgroundColor
+    // }
 
     TextMetrics {
         id: textMetrics
         text: "A"
     }
 
-    ColumnLayout {
+    content: ColumnLayout {
         anchors.fill: parent
 
         Item {
