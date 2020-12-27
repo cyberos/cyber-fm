@@ -72,6 +72,7 @@ Item {
             text: fileName
             Layout.fillWidth: true
             color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            font.bold: isSelected
         }
 
         Label {
