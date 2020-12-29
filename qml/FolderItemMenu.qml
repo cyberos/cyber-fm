@@ -25,9 +25,12 @@ Menu {
                     }
                 }
                 openInTerminal.visible = enableTerminalAction
+                setAsWallpaper.visible = false
             } else {
                 openInTerminal.visible = folderModel.get(indexes[0], FolderListModel.FileIsDirRole)
                 renameAction.enabled = true
+
+                setAsWallpaper.visible = folderModel.get(indexes[0], FolderListModel.IsPictureRole)
             }
         }
     }
@@ -70,7 +73,7 @@ Menu {
 
     MenuItem {
         id: openInTerminal
-        text: qsTr("Open in Terminal")
+        text: qsTr("Open In Terminal")
         visible: false
 
         onTriggered: {
@@ -101,6 +104,16 @@ Menu {
     MenuItem {
         id: renameAction
         text: qsTr("Rename")
+    }
+
+    MenuItem {
+        id: setAsWallpaper
+        text: qsTr("Set As Wallpaper")
+        visible: false
+        onTriggered: {
+            var indexes = selection.selectedIndexes()
+            folderModel.setAsWallpaper(folderModel.get(indexes[0], FolderListModel.FilePathRole))
+        }
     }
 
     MenuSeparator { }

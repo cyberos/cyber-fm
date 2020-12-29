@@ -18,6 +18,7 @@
  */
 
 #include "folderlistmodel.h"
+#include <QDBusInterface>
 #include <QDesktopServices>
 #include <QDebug>
 
@@ -102,6 +103,9 @@ QVariant FolderListModel::data(const QModelIndex &index, int role) const
     case IsRunnableRole:
         return item->isRunnable();
         break;
+    case IsPictureRole:
+        return item->mimeType().name().startsWith("image/");
+        break;
     default:
         break;
     }
@@ -129,6 +133,7 @@ QHash<int, QByteArray> FolderListModel::roleNames() const
     roleNames[IsSelectedRole] = "isSelected";
     roleNames[IsExecutableRole] = "isExecutable";
     roleNames[IsRunnableRole] = "isRunnable";
+    roleNames[IsPictureRole] = "isPicture";
     return roleNames;
 }
 
@@ -282,6 +287,15 @@ void FolderListModel::openPath(const QString &path)
 void FolderListModel::openTerminal(const QString &path)
 {
     m_mimeAppManager->launchTerminal(path);
+}
+
+void FolderListModel::setAsWallpaper(const QString &path)
+{
+    QDBusInterface iface("org.cyber.Settings", "/Theme",
+                         "org.cyber.Theme",
+                         QDBusConnection::sessionBus(), this);
+    if (iface.isValid())
+        iface.call("setWallpaper", path);
 }
 
 void FolderListModel::onItemAdded(FileItem *item)

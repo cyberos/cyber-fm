@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Core Quick Concurrent REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Concurrent DBus REQUIRED)
 find_package(MeuiKit REQUIRED)
 
 add_executable(cyber-fm
@@ -34,6 +34,7 @@ target_link_libraries(cyber-fm
     Qt5::Core
     Qt5::Quick
     Qt5::Concurrent
+    Qt5::DBus
     MeuiKit
 )
 

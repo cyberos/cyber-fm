@@ -57,7 +57,8 @@ public:
         ModifiedDateRole,
         IsSelectedRole,
         IsExecutableRole,
-        IsRunnableRole
+        IsRunnableRole,
+        IsPictureRole
     };
     Q_ENUM(Roles);
 
@@ -92,6 +93,8 @@ public:
     Q_INVOKABLE void openPath(const QString &path);
 
     Q_INVOKABLE void openTerminal(const QString &path);
+
+    Q_INVOKABLE void setAsWallpaper(const QString &path);
 
 signals:
     void rowCountChanged() const;
