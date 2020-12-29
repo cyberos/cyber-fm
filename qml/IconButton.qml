@@ -17,7 +17,7 @@ Item {
     Rectangle {
         id: _background
         anchors.fill: parent
-        radius: Meui.Theme.bigRadius
+        radius: Meui.Theme.smallRadius
         color: _mouseArea.pressed ? pressedColor : _mouseArea.containsMouse ? control.hoveredColor : Meui.Theme.backgroundColor
     }
 

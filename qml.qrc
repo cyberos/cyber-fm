@@ -19,5 +19,11 @@
         <file>images/light/grid.svg</file>
         <file>images/light/list.svg</file>
         <file>qml/IconButton.qml</file>
+        <file>images/folder-download.svg</file>
+        <file>images/folder-home.svg</file>
+        <file>images/folder-music.svg</file>
+        <file>images/folder-picture.svg</file>
+        <file>images/folder-video.svg</file>
+        <file>images/folder-document.svg</file>
     </qresource>
 </RCC>

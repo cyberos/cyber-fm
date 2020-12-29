@@ -23,18 +23,47 @@
 PlacesModel::PlacesModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    if (QFile::exists(locationHome()))
-        m_locations.append(locationHome());
-    if (QFile::exists(locationDocuments()))
-        m_locations.append(locationDocuments());
-    if (QFile::exists(locationDownloads()))
-        m_locations.append(locationDownloads());
-    if (QFile::exists(locationMusic()))
-        m_locations.append(locationMusic());
-    if (QFile::exists(locationPictures()))
-        m_locations.append(locationPictures());
-    if (QFile::exists(locationVideos()))
-        m_locations.append(locationVideos());
+    if (QFile::exists(locationHome())) {
+        PlacesDatas data;
+        data.dir = locationHome();
+        data.iconSource = "qrc:/images/folder-home.svg";
+        m_datas.append(data);
+    }
+
+    if (QFile::exists(locationDocuments())) {
+        PlacesDatas data;
+        data.dir = locationDocuments();
+        data.iconSource = "qrc:/images/folder-document.svg";
+        m_datas.append(data);
+    }
+
+    if (QFile::exists(locationDownloads())) {
+        PlacesDatas data;
+        data.dir = locationDownloads();
+        data.iconSource = "qrc:/images/folder-download.svg";
+        m_datas.append(data);
+    }
+
+    if (QFile::exists(locationMusic())) {
+        PlacesDatas data;
+        data.dir = locationMusic();
+        data.iconSource = "qrc:/images/folder-music.svg";
+        m_datas.append(data);
+    }
+
+    if (QFile::exists(locationPictures())) {
+        PlacesDatas data;
+        data.dir = locationPictures();
+        data.iconSource = "qrc:/images/folder-picture.svg";
+        m_datas.append(data);
+    }
+
+    if (QFile::exists(locationVideos())) {
+        PlacesDatas data;
+        data.dir = locationVideos();
+        data.iconSource = "qrc:/images/folder-video.svg";
+        m_datas.append(data);
+    }
 }
 
 QString PlacesModel::locationHome() const
@@ -69,21 +98,26 @@ QString PlacesModel::locationVideos() const
 
 int PlacesModel::rowCount(const QModelIndex &) const
 {
-    return m_locations.count();
+    return m_datas.count();
 }
 
 QVariant PlacesModel::data(const QModelIndex &index, int roles) const
 {
+    PlacesDatas data = m_datas.at(index.row());
+
     switch (roles) {
     case PathRoles:
-        return m_locations.at(index.row());
+        return data.dir;
         break;
     case DisplayNameRoles:
-        return QDir(m_locations.at(index.row())).dirName();
+        return QDir(data.dir).dirName();
+        break;
+    case IconSourceRoles:
+        return data.iconSource;
         break;
     }
 
-    return m_locations.at(index.row());
+    return QVariant();
 }
 
 QHash<int, QByteArray> PlacesModel::roleNames() const
@@ -91,6 +125,7 @@ QHash<int, QByteArray> PlacesModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(PlacesModel::PathRoles, "path");
     roles.insert(PlacesModel::DisplayNameRoles, "displayName");
+    roles.insert(PlacesModel::IconSourceRoles, "iconSource");
     return roles;
 }
 

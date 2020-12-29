@@ -12,11 +12,6 @@ Item {
         id: placesModel
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: Meui.Theme.secondBackgroundColor
-    }
-
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -43,13 +38,5 @@ Item {
                 }
             }
         }
-
-//        Rectangle {
-//            Layout.fillHeight: true
-//            width: 1
-//            color: Qt.rgba(Meui.Theme.textColor.r,
-//                           Meui.Theme.textColor.g,
-//                           Meui.Theme.textColor.b, 0.15)
-//        }
     }
 }

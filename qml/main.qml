@@ -61,18 +61,10 @@ Meui.Window {
                     source: Meui.Theme.darkMode ? "qrc:/images/dark/go-next.svg" : "qrc:/images/light/go-next.svg"
                 }
 
-                Item {
-                    width: Meui.Units.smallSpacing
-                }
-
                 PathBar {
                     id: pathBar
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                }
-
-                Item {
-                    width: Meui.Units.smallSpacing
                 }
 
                 IconButton {

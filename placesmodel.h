@@ -23,6 +23,11 @@
 #include <QAbstractListModel>
 #include <QStandardPaths>
 
+struct PlacesDatas {
+    QString dir;
+    QString iconSource;
+};
+
 class PlacesModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -30,7 +35,8 @@ class PlacesModel : public QAbstractListModel
 public:
     enum Roles {
         PathRoles = Qt::UserRole + 1,
-        DisplayNameRoles
+        DisplayNameRoles,
+        IconSourceRoles
     };
 
     explicit PlacesModel(QObject *parent = nullptr);
@@ -52,7 +58,7 @@ private:
     QString standardLocation(QStandardPaths::StandardLocation location) const;
 
 private:
-    QStringList m_locations;
+    QList<PlacesDatas> m_datas;
 };
 
 #endif // PLACESMODEL_H

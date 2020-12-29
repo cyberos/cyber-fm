@@ -1,6 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
+
 import MeuiKit 1.0 as Meui
 
 Item {
@@ -42,6 +44,21 @@ Item {
         anchors.rightMargin: Meui.Units.largeSpacing
 
         spacing: Meui.Units.largeSpacing
+
+        Image {
+            id: image
+            height: parent.height * 0.4
+            width: height
+            source: iconSource
+            sourceSize: Qt.size(width, height)
+            Layout.alignment: Qt.AlignVCenter
+
+            ColorOverlay {
+                anchors.fill: image
+                source: image
+                color: itemTitle.color
+            }
+        }
 
         Label {
             id: itemTitle
