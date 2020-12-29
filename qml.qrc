@@ -25,5 +25,8 @@
         <file>images/folder-picture.svg</file>
         <file>images/folder-video.svg</file>
         <file>images/folder-document.svg</file>
+        <file>qml/GlobalSettings.qml</file>
+        <file>qml/FolderIconView.qml</file>
+        <file>qml/FolderIconDelegate.qml</file>
     </qresource>
 </RCC>

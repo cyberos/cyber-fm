@@ -104,7 +104,7 @@ Item {
 
     function showTextField() {
         addressEdit.visible = true
-        addressEdit.focus = true
+        addressEdit.forceActiveFocus()
         addressEdit.selectAll()
         listView.visible = false
     }

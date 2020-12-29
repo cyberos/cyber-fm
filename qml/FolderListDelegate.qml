@@ -88,7 +88,7 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.axis: Drag.XAndYAxis
 
-        onPressed: control.itemPressed
+        onPressed: control.pressed()
 
         onClicked: {
             if (mouse.button === Qt.LeftButton)

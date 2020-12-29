@@ -17,10 +17,10 @@ Meui.Window {
 
     hideHeaderOnMaximize: false
     headerBarHeight: textMetrics.height + Meui.Units.largeSpacing * 3
-
     backgroundColor: Meui.Theme.secondBackgroundColor
 
     property alias selection: folderModel.selection
+    property QtObject settings: GlobalSettings { }
 
     FolderListModel {
         id: folderModel
@@ -61,12 +61,14 @@ Meui.Window {
                 Layout.fillHeight: true
                 implicitWidth: height
                 source: Meui.Theme.darkMode ? "qrc:/images/dark/grid.svg" : "qrc:/images/light/grid.svg"
+                onClicked: settings.viewMethod = 1
             }
 
             IconButton {
                 Layout.fillHeight: true
                 implicitWidth: height
                 source: Meui.Theme.darkMode ? "qrc:/images/dark/list.svg" : "qrc:/images/light/list.svg"
+                onClicked: settings.viewMethod = 0
             }
         }
     }

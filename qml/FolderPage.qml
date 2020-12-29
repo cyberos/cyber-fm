@@ -27,18 +27,55 @@ Item {
         onAccepted: folderModel.runIndex(index)
     }
 
-    FolderListView {
+    Loader {
+        id: viewLoader
         anchors.fill: parent
 
-        onRightClicked: {
-            folderMenu.popup()
+        sourceComponent: {
+            if (settings.viewMethod === 0) {
+                return folderListView
+            } else {
+                return folderIconView
+            }
         }
+    }
 
-        onItemDoubleClicked: {
-            openItem(index)
+    Component {
+        id: folderListView
+
+        FolderListView {
+            anchors.fill: parent
+            model: folderModel
+
+            onRightClicked: {
+                folderMenu.popup()
+            }
+
+            onItemDoubleClicked: {
+                openItem(index)
+            }
+
+            onItemPressed: control.forceActiveFocus()
         }
+    }
 
-        onItemPressed: control.forceActiveFocus()
+    Component {
+        id: folderIconView
+
+        FolderIconView {
+            anchors.fill: parent
+            model: folderModel
+
+            onRightClicked: {
+                folderMenu.popup()
+            }
+
+            onItemDoubleClicked: {
+                openItem(index)
+            }
+
+            onItemPressed: control.forceActiveFocus()
+        }
     }
 
     Label {
