@@ -15,7 +15,8 @@ Meui.Window {
     visible: true
     title: qsTr("File Manager")
 
-    hideHeaderOnMaximize: true
+    hideHeaderOnMaximize: false
+    headerBarHeight: textMetrics.height + Meui.Units.largeSpacing * 3
 
     backgroundColor: Meui.Theme.secondBackgroundColor
 
@@ -25,61 +26,96 @@ Meui.Window {
         id: folderModel
     }
 
-    // Rectangle {
-    //     anchors.fill: parent
-    //     color: Meui.Theme.backgroundColor
-    // }
-
     TextMetrics {
         id: textMetrics
         text: "A"
     }
 
+    headerBar: Item {
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: Meui.Units.largeSpacing
+            anchors.rightMargin: Meui.Units.largeSpacing
+            anchors.topMargin: Meui.Units.largeSpacing
+            spacing: Meui.Units.smallSpacing
+
+            IconButton {
+                Layout.fillHeight: true
+                implicitWidth: height
+                source: Meui.Theme.darkMode ? "qrc:/images/dark/go-previous.svg" : "qrc:/images/light/go-previous.svg"
+            }
+
+            IconButton {
+                Layout.fillHeight: true
+                implicitWidth: height
+                source: Meui.Theme.darkMode ? "qrc:/images/dark/go-next.svg" : "qrc:/images/light/go-next.svg"
+            }
+
+            PathBar {
+                id: pathBar
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+
+            IconButton {
+                Layout.fillHeight: true
+                implicitWidth: height
+                source: Meui.Theme.darkMode ? "qrc:/images/dark/grid.svg" : "qrc:/images/light/grid.svg"
+            }
+
+            IconButton {
+                Layout.fillHeight: true
+                implicitWidth: height
+                source: Meui.Theme.darkMode ? "qrc:/images/dark/list.svg" : "qrc:/images/light/list.svg"
+            }
+        }
+    }
+
     content: ColumnLayout {
         spacing: Meui.Units.largeSpacing
 
-        Item {
-            id: topControls
-            Layout.fillWidth: true
-            height: textMetrics.height + Meui.Units.largeSpacing * 2
+//        Item {
+//            id: topControls
+//            Layout.fillWidth: true
+//            height: textMetrics.height + Meui.Units.largeSpacing * 2
 
-            RowLayout {
-                anchors.fill: parent
-                anchors.leftMargin: Meui.Units.largeSpacing
-                anchors.rightMargin: Meui.Units.largeSpacing
-                spacing: Meui.Units.smallSpacing
+//            RowLayout {
+//                anchors.fill: parent
+//                anchors.leftMargin: Meui.Units.largeSpacing
+//                anchors.rightMargin: Meui.Units.largeSpacing
+//                spacing: Meui.Units.smallSpacing
 
-                IconButton {
-                    Layout.fillHeight: true
-                    implicitWidth: height
-                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-previous.svg" : "qrc:/images/light/go-previous.svg"
-                }
+//                IconButton {
+//                    Layout.fillHeight: true
+//                    implicitWidth: height
+//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-previous.svg" : "qrc:/images/light/go-previous.svg"
+//                }
 
-                IconButton {
-                    Layout.fillHeight: true
-                    implicitWidth: height
-                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-next.svg" : "qrc:/images/light/go-next.svg"
-                }
+//                IconButton {
+//                    Layout.fillHeight: true
+//                    implicitWidth: height
+//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-next.svg" : "qrc:/images/light/go-next.svg"
+//                }
 
-                PathBar {
-                    id: pathBar
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                }
+//                PathBar {
+//                    id: pathBar
+//                    Layout.fillWidth: true
+//                    Layout.fillHeight: true
+//                }
 
-                IconButton {
-                    Layout.fillHeight: true
-                    implicitWidth: height
-                    source: Meui.Theme.darkMode ? "qrc:/images/dark/grid.svg" : "qrc:/images/light/grid.svg"
-                }
+//                IconButton {
+//                    Layout.fillHeight: true
+//                    implicitWidth: height
+//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/grid.svg" : "qrc:/images/light/grid.svg"
+//                }
 
-                IconButton {
-                    Layout.fillHeight: true
-                    implicitWidth: height
-                    source: Meui.Theme.darkMode ? "qrc:/images/dark/list.svg" : "qrc:/images/light/list.svg"
-                }
-            }
-        }
+//                IconButton {
+//                    Layout.fillHeight: true
+//                    implicitWidth: height
+//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/list.svg" : "qrc:/images/light/list.svg"
+//                }
+//            }
+//        }
 
         Item {
             id: bottomControls
@@ -88,6 +124,7 @@ Meui.Window {
 
             RowLayout {
                 anchors.fill: parent
+                anchors.topMargin: Meui.Units.largeSpacing
                 anchors.leftMargin: Meui.Units.largeSpacing
                 anchors.rightMargin: Meui.Units.largeSpacing
                 anchors.bottomMargin: Meui.Units.largeSpacing
