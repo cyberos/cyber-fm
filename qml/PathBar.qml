@@ -6,9 +6,10 @@ import MeuiKit 1.0 as Meui
 Item {
     Rectangle {
         anchors.fill: parent
-        color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.secondBackgroundColor, 1.02)
-        radius: Meui.Theme.smallRadius
-        border.color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.secondBackgroundColor, 1.05)
+//        color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.secondBackgroundColor, 1.02)
+        radius: Meui.Theme.bigRadius
+//        border.color: Meui.Theme.darkMode ? "#4A4A4D" : Qt.darker(Meui.Theme.secondBackgroundColor, 1.05)
+        color: Meui.Theme.backgroundColor
     }
 
     ListView {
@@ -36,7 +37,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 2
                 color: Meui.Theme.highlightColor
-                radius: Meui.Theme.smallRadius
+                radius: Meui.Theme.bigRadius
                 visible: index === listView.count - 1
 
                 layer.enabled: true

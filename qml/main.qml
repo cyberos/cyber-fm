@@ -15,6 +15,10 @@ Meui.Window {
     visible: true
     title: qsTr("File Manager")
 
+    hideHeaderOnMaximize: true
+
+    backgroundColor: Meui.Theme.secondBackgroundColor
+
     property alias selection: folderModel.selection
 
     FolderListModel {
@@ -32,7 +36,7 @@ Meui.Window {
     }
 
     content: ColumnLayout {
-        anchors.fill: parent
+        spacing: Meui.Units.largeSpacing
 
         Item {
             id: topControls
@@ -41,23 +45,70 @@ Meui.Window {
 
             RowLayout {
                 anchors.fill: parent
+                anchors.leftMargin: Meui.Units.largeSpacing
+                anchors.rightMargin: Meui.Units.largeSpacing
+                spacing: Meui.Units.smallSpacing
+
+                IconButton {
+                    Layout.fillHeight: true
+                    implicitWidth: height
+                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-previous.svg" : "qrc:/images/light/go-previous.svg"
+                }
+
+                IconButton {
+                    Layout.fillHeight: true
+                    implicitWidth: height
+                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-next.svg" : "qrc:/images/light/go-next.svg"
+                }
+
+                Item {
+                    width: Meui.Units.smallSpacing
+                }
 
                 PathBar {
                     id: pathBar
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
+
+                Item {
+                    width: Meui.Units.smallSpacing
+                }
+
+                IconButton {
+                    Layout.fillHeight: true
+                    implicitWidth: height
+                    source: Meui.Theme.darkMode ? "qrc:/images/dark/grid.svg" : "qrc:/images/light/grid.svg"
+                }
+
+                IconButton {
+                    Layout.fillHeight: true
+                    implicitWidth: height
+                    source: Meui.Theme.darkMode ? "qrc:/images/dark/list.svg" : "qrc:/images/light/list.svg"
+                }
             }
         }
 
-        RowLayout {
-            SideBar {
-                Layout.fillHeight: true
-            }
+        Item {
+            id: bottomControls
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            FolderPage {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: Meui.Units.largeSpacing
+                anchors.rightMargin: Meui.Units.largeSpacing
+                anchors.bottomMargin: Meui.Units.largeSpacing
+                spacing: Meui.Units.largeSpacing
+
+                SideBar {
+                    Layout.fillHeight: true
+                }
+
+                FolderPage {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                }
             }
         }
     }

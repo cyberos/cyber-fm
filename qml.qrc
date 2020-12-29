@@ -10,5 +10,14 @@
         <file>qml/FolderItemMenu.qml</file>
         <file>qml/FolderListDelegate.qml</file>
         <file>qml/ExecPromptDialog.qml</file>
+        <file>images/dark/go-next.svg</file>
+        <file>images/dark/go-previous.svg</file>
+        <file>images/dark/grid.svg</file>
+        <file>images/dark/list.svg</file>
+        <file>images/light/go-next.svg</file>
+        <file>images/light/go-previous.svg</file>
+        <file>images/light/grid.svg</file>
+        <file>images/light/list.svg</file>
+        <file>qml/IconButton.qml</file>
     </qresource>
 </RCC>

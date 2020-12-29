@@ -18,8 +18,8 @@ ListView {
     Layout.fillWidth: true
     leftMargin: Meui.Units.largeSpacing
     rightMargin: Meui.Units.largeSpacing
-    topMargin: Meui.Units.largeSpacing
-    bottomMargin: Meui.Units.largeSpacing
+    topMargin: Meui.Units.smallSpacing
+    bottomMargin: Meui.Units.smallSpacing
     spacing: Meui.Units.largeSpacing
     clip: true
 

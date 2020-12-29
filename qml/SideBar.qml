@@ -32,11 +32,6 @@ Item {
                 clip: true
                 spacing: Meui.Units.largeSpacing
 
-                topMargin: Meui.Units.largeSpacing
-                bottomMargin: Meui.Units.largeSpacing
-                leftMargin: Meui.Units.largeSpacing
-                rightMargin: Meui.Units.largeSpacing
-
                 ScrollBar.vertical: ScrollBar {}
                 flickableDirection: Flickable.VerticalFlick
 
@@ -49,12 +44,12 @@ Item {
             }
         }
 
-        Rectangle {
-            Layout.fillHeight: true
-            width: 1
-            color: Qt.rgba(Meui.Theme.textColor.r,
-                           Meui.Theme.textColor.g,
-                           Meui.Theme.textColor.b, 0.15)
-        }
+//        Rectangle {
+//            Layout.fillHeight: true
+//            width: 1
+//            color: Qt.rgba(Meui.Theme.textColor.r,
+//                           Meui.Theme.textColor.g,
+//                           Meui.Theme.textColor.b, 0.15)
+//        }
     }
 }

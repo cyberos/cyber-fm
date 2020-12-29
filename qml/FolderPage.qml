@@ -6,6 +6,13 @@ import Cyber.FileManager 1.0
 Item {
     id: control
 
+    Rectangle {
+        anchors.fill: parent
+        // anchors.margins: Meui.Units.largeSpacing
+        radius: Meui.Theme.bigRadius
+        color: Meui.Theme.backgroundColor
+    }
+
     FolderMenu {
         id: folderMenu
     }
