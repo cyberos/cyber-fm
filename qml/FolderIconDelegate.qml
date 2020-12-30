@@ -22,26 +22,20 @@ Item {
     Drag.hotSpot.x: control.width / 2
     Drag.hotSpot.y: control.height / 2
 
+    property color hoveredColor: Qt.rgba(Meui.Theme.textColor.r,
+                                         Meui.Theme.textColor.g,
+                                         Meui.Theme.textColor.b,
+                                         0.1)
+
     Rectangle {
         id: bg
         anchors.fill: parent
         anchors.margins: Meui.Units.largeSpacing
         radius: Meui.Theme.bigRadius
-        color: isSelected
-        ? Meui.Theme.highlightColor
-        : mouseArea.containsMouse
-            ? Qt.rgba(Meui.Theme.textColor.r,
-                      Meui.Theme.textColor.g,
-                      Meui.Theme.textColor.b,
-                      0.1)
-            : "transparent"
+        color: isSelected ? Meui.Theme.highlightColor
+                          : mouseArea.containsMouse
+                            ? hoveredColor: "transparent"
         visible: isSelected || mouseArea.containsMouse
-
-        Behavior on color {
-            ColorAnimation {
-                duration: 125
-            }
-        }
     }
 
     MouseArea {
@@ -154,6 +148,8 @@ Item {
                 bottom: parent.bottom
             }
 
+            font.pointSize: 12
+
             text: fileName
             // wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             elide: Text.ElideMiddle
@@ -161,12 +157,6 @@ Item {
             color: isSelected
             ? Meui.Theme.highlightedTextColor
             : Meui.Theme.textColor
-
-            Behavior on color {
-                ColorAnimation {
-                    duration: 125
-                }
-            }
         }
     }
 }

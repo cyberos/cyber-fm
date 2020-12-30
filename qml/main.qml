@@ -16,7 +16,7 @@ Meui.Window {
     title: qsTr("File Manager")
 
     hideHeaderOnMaximize: false
-    headerBarHeight: textMetrics.height + Meui.Units.largeSpacing * 3
+    headerBarHeight: 40 + Meui.Units.largeSpacing
     backgroundColor: Meui.Theme.secondBackgroundColor
 
     property alias selection: folderModel.selection
@@ -24,11 +24,6 @@ Meui.Window {
 
     FolderListModel {
         id: folderModel
-    }
-
-    TextMetrics {
-        id: textMetrics
-        text: "A"
     }
 
     headerBar: Item {

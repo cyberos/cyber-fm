@@ -23,12 +23,6 @@ Item {
         radius: Meui.Theme.bigRadius
         color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
         visible: isSelected || itemMouseArea.containsMouse
-
-        Behavior on color {
-            ColorAnimation {
-                duration: 125
-            }
-        }
     }
 
     RowLayout {
