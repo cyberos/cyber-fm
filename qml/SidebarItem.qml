@@ -65,7 +65,6 @@ Item {
             text: item.text
             color: highlighted ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
             elide: Text.ElideRight
-            font.bold: highlighted
 
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true

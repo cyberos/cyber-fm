@@ -76,49 +76,6 @@ Meui.Window {
     content: ColumnLayout {
         spacing: Meui.Units.largeSpacing
 
-//        Item {
-//            id: topControls
-//            Layout.fillWidth: true
-//            height: textMetrics.height + Meui.Units.largeSpacing * 2
-
-//            RowLayout {
-//                anchors.fill: parent
-//                anchors.leftMargin: Meui.Units.largeSpacing
-//                anchors.rightMargin: Meui.Units.largeSpacing
-//                spacing: Meui.Units.smallSpacing
-
-//                IconButton {
-//                    Layout.fillHeight: true
-//                    implicitWidth: height
-//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-previous.svg" : "qrc:/images/light/go-previous.svg"
-//                }
-
-//                IconButton {
-//                    Layout.fillHeight: true
-//                    implicitWidth: height
-//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/go-next.svg" : "qrc:/images/light/go-next.svg"
-//                }
-
-//                PathBar {
-//                    id: pathBar
-//                    Layout.fillWidth: true
-//                    Layout.fillHeight: true
-//                }
-
-//                IconButton {
-//                    Layout.fillHeight: true
-//                    implicitWidth: height
-//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/grid.svg" : "qrc:/images/light/grid.svg"
-//                }
-
-//                IconButton {
-//                    Layout.fillHeight: true
-//                    implicitWidth: height
-//                    source: Meui.Theme.darkMode ? "qrc:/images/dark/list.svg" : "qrc:/images/light/list.svg"
-//                }
-//            }
-//        }
-
         Item {
             id: bottomControls
             Layout.fillWidth: true

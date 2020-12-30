@@ -22,6 +22,35 @@ GridView {
 
     ScrollBar.vertical: ScrollBar {}
 
+    property int size_
+
+    Component.onCompleted: {
+        control.size_ = control.itemSize
+    }
+
+    onItemSizeChanged: {
+        control.adaptGrid()
+    }
+
+    onWidthChanged: {
+        control.adaptGrid()
+    }
+
+    onHeightChanged: {
+        control.adaptGrid()
+    }
+
+    function adaptGrid() {
+        var fullWidth = control.width
+        var realAmount = parseInt(fullWidth / control.size_, 10)
+        var amount = parseInt(fullWidth / control.cellWidth, 10)
+
+        var leftSpace = parseInt(fullWidth - ( realAmount * control.size_ ), 10)
+        var size = Math.min(amount, realAmount) >= control.count ? Math.max(control.cellWidth, control.itemSize) : parseInt((control.size_) + (parseInt(leftSpace/realAmount, 10)), 10)
+
+        control.cellWidth = size
+    }
+
     delegate: FolderIconDelegate {
         width: control.cellWidth
         height: control.cellHeight

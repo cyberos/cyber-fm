@@ -161,7 +161,6 @@ Item {
             color: isSelected
             ? Meui.Theme.highlightedTextColor
             : Meui.Theme.textColor
-            font.bold: isSelected
 
             Behavior on color {
                 ColorAnimation {
