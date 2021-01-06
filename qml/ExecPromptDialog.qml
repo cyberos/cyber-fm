@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 import MeuiKit 1.0 as Meui
 import Cyber.FileManager 1.0
 
-Window {
+ApplicationWindow {
     id: control
     width: mainLayout.implicitWidth + Meui.Units.largeSpacing * 4
     height: mainLayout.implicitHeight + Meui.Units.largeSpacing * 4
@@ -17,6 +17,10 @@ Window {
 
     flags: Qt.Dialog
     modality: Qt.WindowModal
+
+    background: Rectangle {
+        color: Meui.Theme.backgroundColor
+    }
 
     property int index: -1
     signal accepted()
@@ -80,7 +84,7 @@ Window {
             }
 
             Button {
-                text: qsTr("Canel")
+                text: qsTr("Cancel")
                 Layout.fillWidth: true
                 onClicked: control.close()
             }
