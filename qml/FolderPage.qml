@@ -27,57 +27,40 @@ Item {
         onAccepted: folderModel.runIndex(index)
     }
 
-    Loader {
-        id: viewLoader
+    // Views
+    FolderIconView {
         anchors.fill: parent
+        model: folderModel
+        visible: settings.viewMethod === 1
 
-        sourceComponent: {
-            if (settings.viewMethod === 0) {
-                return folderListView
-            } else {
-                return folderIconView
-            }
+        onRightClicked: {
+            folderMenu.popup()
         }
+
+        onItemDoubleClicked: {
+            openItem(index)
+        }
+
+        onItemPressed: control.forceActiveFocus()
     }
 
-    Component {
-        id: folderListView
+    FolderListView {
+        anchors.fill: parent
+        model: folderModel
+        visible: settings.viewMethod === 0
 
-        FolderListView {
-            anchors.fill: parent
-            model: folderModel
-
-            onRightClicked: {
-                folderMenu.popup()
-            }
-
-            onItemDoubleClicked: {
-                openItem(index)
-            }
-
-            onItemPressed: control.forceActiveFocus()
+        onRightClicked: {
+            folderMenu.popup()
         }
+
+        onItemDoubleClicked: {
+            openItem(index)
+        }
+
+        onItemPressed: control.forceActiveFocus()
     }
 
-    Component {
-        id: folderIconView
-
-        FolderIconView {
-            anchors.fill: parent
-            model: folderModel
-
-            onRightClicked: {
-                folderMenu.popup()
-            }
-
-            onItemDoubleClicked: {
-                openItem(index)
-            }
-
-            onItemPressed: control.forceActiveFocus()
-        }
-    }
-
+    // Prompt text
     Label {
         anchors.centerIn: parent
         text: qsTr("No files")
