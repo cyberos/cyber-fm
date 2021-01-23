@@ -22,7 +22,25 @@ Item {
         anchors.fill: parent
         radius: Meui.Theme.bigRadius
         color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
-        visible: isSelected || itemMouseArea.containsMouse
+    }
+
+    MouseArea {
+        id: itemMouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        drag.axis: Drag.XAndYAxis
+
+        onPressed: control.pressed()
+
+        onClicked: {
+            if (mouse.button === Qt.LeftButton)
+                control.leftClicked()
+            else if (mouse.button === Qt.RightButton)
+                control.rightClicked()
+        }
+
+        onDoubleClicked: control.doubleClicked()
     }
 
     RowLayout {
@@ -33,8 +51,8 @@ Item {
 
         Item {
             id: iconItem
-            width: parent.height * 0.8
             Layout.fillHeight: true
+            width: parent.height * 0.8
 
             Image {
                 id: icon
@@ -72,24 +90,5 @@ Item {
             text: DateUtils.friendlyTime(modifiedDate)
             color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
         }
-    }
-
-    MouseArea {
-        id: itemMouseArea
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        drag.axis: Drag.XAndYAxis
-
-        onPressed: control.pressed()
-
-        onClicked: {
-            if (mouse.button === Qt.LeftButton)
-                control.leftClicked()
-            else if (mouse.button === Qt.RightButton)
-                control.rightClicked()
-        }
-
-        onDoubleClicked: control.doubleClicked()
     }
 }

@@ -8,7 +8,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        // anchors.margins: Meui.Units.largeSpacing
+        anchors.rightMargin: Meui.Units.smallSpacing
         radius: Meui.Theme.bigRadius
         color: Meui.Theme.backgroundColor
     }

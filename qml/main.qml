@@ -8,8 +8,9 @@ import Cyber.FileManager 1.0
 import MeuiKit 1.0 as Meui
 
 Meui.Window {
-    width: 1080
-    height: 645
+    id: root
+    width: settings.width
+    height: settings.height
     minimumWidth: 900
     minimumHeight: 600
     visible: true
@@ -21,6 +22,11 @@ Meui.Window {
 
     property alias selection: folderModel.selection
     property QtObject settings: GlobalSettings { }
+
+    onClosing: {
+        settings.width = root.width
+        settings.height = root.height
+    }
 
     FolderListModel {
         id: folderModel
@@ -80,7 +86,7 @@ Meui.Window {
                 anchors.fill: parent
                 anchors.topMargin: Meui.Units.largeSpacing
                 anchors.leftMargin: Meui.Units.largeSpacing
-                anchors.rightMargin: Meui.Units.largeSpacing
+                anchors.rightMargin: 0
                 anchors.bottomMargin: Meui.Units.largeSpacing
                 spacing: Meui.Units.largeSpacing
 

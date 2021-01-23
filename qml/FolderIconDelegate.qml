@@ -35,15 +35,15 @@ Item {
         color: isSelected ? Meui.Theme.highlightColor
                           : mouseArea.containsMouse
                             ? hoveredColor: "transparent"
-        visible: isSelected || mouseArea.containsMouse
     }
 
     MouseArea {
         id: mouseArea
-        anchors.fill: bg
-        hoverEnabled: true
+        anchors.fill: parent
+        anchors.margins: Meui.Units.largeSpacing
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.axis: Drag.XAndYAxis
+        hoverEnabled: true
 
         onClicked: {
             if (mouse.button == Qt.LeftButton)
@@ -102,7 +102,8 @@ Item {
 
     Item {
         id: contents
-        anchors.fill: bg
+        anchors.fill: parent
+        anchors.margins: Meui.Units.largeSpacing
 
         Item {
             id: iconItem
@@ -118,11 +119,8 @@ Item {
 
             Image {
                 id: icon
-                anchors.centerIn: iconItem
-                width: iconItem.width
-                height: width
-                sourceSize.width: width
-                sourceSize.height: height
+                anchors.fill: parent
+                sourceSize: Qt.size(width, height)
                 source: iconName
                 visible: !image.visible
                 asynchronous: true
@@ -134,9 +132,8 @@ Item {
                 source: iconSource
                 sourceSize: Qt.size(width, height)
                 fillMode: Image.PreserveAspectFit
-                visible: status == Image.Ready
+                visible: status === Image.Ready
                 asynchronous: true
-                cache: false
             }
         }
 
