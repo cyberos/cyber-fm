@@ -74,7 +74,8 @@ Meui.Window {
         }
     }
 
-    content: ColumnLayout {
+    ColumnLayout {
+        anchors.fill: parent
         spacing: Meui.Units.largeSpacing
 
         Item {
