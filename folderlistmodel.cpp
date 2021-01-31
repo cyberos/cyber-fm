@@ -177,28 +177,23 @@ void FolderListModel::setPath(const QString &filePath)
         return;
     }
 
+    m_currentDir = filePath;
+
     // Handle path list
     m_pathList.clear();
-    QString _path = filePath + "/";
-    // while (_path.endsWith("/"))
-    //     _path.chop(1);
+    QDir dir(m_currentDir);
 
-    int count = _path.count("/");
+    while (true) {
+        if (dir.isRoot()) {
+            m_pathList.append("/");
+            break;
+        }
 
-    for (int i = 0; i < count; ++i) {
-        _path = QString(_path).left(_path.lastIndexOf("/"));
-
-        QString dirName = QString(_path).right(_path.length() - _path.lastIndexOf("/") - 1);
-
-        if (dirName.isEmpty())
-            continue;
-
-        m_pathList << dirName;
+        m_pathList.append(dir.absolutePath());
+        dir.cdUp();
     }
 
     std::reverse(m_pathList.begin(), m_pathList.end());
-
-    m_currentDir = filePath;
 
     beginResetModel();
     m_datas.clear();
@@ -280,8 +275,7 @@ void FolderListModel::openItem(int index)
 void FolderListModel::openPath(const QString &path)
 {
     // Open from pathbar item.
-    QString newPath = m_currentDir.left(m_currentDir.indexOf(path) + path.length());
-    setPath(newPath);
+    setPath(path);
 }
 
 void FolderListModel::openTerminal(const QString &path)
@@ -296,6 +290,16 @@ void FolderListModel::setAsWallpaper(const QString &path)
                          QDBusConnection::sessionBus(), this);
     if (iface.isValid())
         iface.call("setWallpaper", path);
+}
+
+QString FolderListModel::dirName(const QString &path)
+{
+    QDir dir(path);
+
+    if (dir.isRoot())
+        return QString("/");
+
+    return dir.dirName();
 }
 
 void FolderListModel::onItemAdded(FileItem *item)

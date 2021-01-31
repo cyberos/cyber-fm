@@ -8,7 +8,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        anchors.rightMargin: Meui.Units.smallSpacing
+        anchors.rightMargin: Meui.Units.largeSpacing
         radius: Meui.Theme.bigRadius
         color: Meui.Theme.backgroundColor
     }
@@ -30,6 +30,7 @@ Item {
     // Views
     FolderIconView {
         anchors.fill: parent
+        anchors.rightMargin: Meui.Units.largeSpacing
         model: folderModel
         visible: settings.viewMethod === 1
 
@@ -46,6 +47,7 @@ Item {
 
     FolderListView {
         anchors.fill: parent
+        anchors.rightMargin: Meui.Units.largeSpacing
         model: folderModel
         visible: settings.viewMethod === 0
 

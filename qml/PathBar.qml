@@ -51,7 +51,7 @@ Item {
 
             Label {
                 id: label
-                text: modelData
+                text: folderModel.dirName(modelData)
                 color: index === listView.count - 1 ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
                 anchors.centerIn: parent
             }

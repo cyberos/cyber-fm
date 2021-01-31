@@ -96,6 +96,8 @@ public:
 
     Q_INVOKABLE void setAsWallpaper(const QString &path);
 
+    Q_INVOKABLE QString dirName(const QString &path);
+
 signals:
     void rowCountChanged() const;
     void countChanged() const;
