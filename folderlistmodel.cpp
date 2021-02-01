@@ -83,7 +83,7 @@ QVariant FolderListModel::data(const QModelIndex &index, int role) const
             return QString("file://%1").arg(item->filePath());
 
         if (item->mimeType().name().startsWith("image/"))
-            return QString("file://%1").arg(item->filePath());
+            return QString("image://thumbnail/%1").arg(item->filePath());
 
         return QString();
     }

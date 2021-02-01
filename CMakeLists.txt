@@ -26,12 +26,20 @@ add_executable(cyber-fm
     dirlister.cpp
     xdgmimeapps.cpp
     xdgdesktopfile.cpp
+
+    thumbnailer/linkedlist.h
+    thumbnailer/nemoimagemetadata.cpp
+    thumbnailer/nemothumbnailcache.cpp
+    thumbnailer/nemothumbnailitem.cpp
+    thumbnailer/nemothumbnailprovider.cpp
+
     qml.qrc
 )
 
 target_link_libraries(cyber-fm
     PRIVATE
     Qt5::Core
+    Qt5::GuiPrivate
     Qt5::Quick
     Qt5::Concurrent
     Qt5::DBus

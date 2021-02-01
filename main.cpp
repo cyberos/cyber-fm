@@ -23,6 +23,8 @@
 #include "folderlistmodel.h"
 #include "placesmodel.h"
 #include "dateutils.h"
+#include "thumbnailer/nemothumbnailprovider.h"
+#include "thumbnailer/nemothumbnailitem.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +36,7 @@ int main(int argc, char *argv[])
     const char *uri = "Cyber.FileManager";
     qmlRegisterType<FolderListModel>(uri, 1, 0, "FolderListModel");
     qmlRegisterType<PlacesModel>(uri, 1, 0, "PlacesModel");
+    qmlRegisterType<NemoThumbnailItem>(uri, 1, 0, "Thumbnail");
     qmlRegisterSingletonType<DateUtils>(uri, 1, 0, "DateUtils", [](QQmlEngine *, QJSEngine *) -> QObject * {
         return new DateUtils;
     });
@@ -46,6 +49,8 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
+    engine.addImageProvider(QLatin1String("thumbnail"), new NemoThumbnailProvider);
 
     return app.exec();
 }
