@@ -1,6 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
+
 import MeuiKit 1.0 as Meui
 
 Item {
@@ -26,16 +28,6 @@ Item {
                                          Meui.Theme.textColor.g,
                                          Meui.Theme.textColor.b,
                                          0.1)
-
-    Rectangle {
-        id: bg
-        anchors.fill: parent
-        anchors.margins: Meui.Units.largeSpacing
-        radius: Meui.Theme.bigRadius
-        color: isSelected ? Meui.Theme.highlightColor
-                          : mouseArea.containsMouse
-                            ? hoveredColor: "transparent"
-    }
 
     MouseArea {
         id: mouseArea
@@ -77,49 +69,20 @@ Item {
         }
     }
 
-    DropArea {
-        id: dropArea
-        anchors.fill: bg
-        enabled: fileIsDir
-
-        onEntered: {
-//            if (drag.source.path === control.path)
-//                enabled = false
-        }
-
-        onDropped: {
-            if (drag.source) {
-                // Do Move
-                folderModel.model.cut(drag.source.path, filePath)
-            } else {
-                if (drop.hasUrls) {
-                    // Do Copy
-                    folderModel.model.copy(drop.urls, filePath)
-                }
-            }
-        }
-    }
-
-    Item {
-        id: contents
+    ColumnLayout {
         anchors.fill: parent
         anchors.margins: Meui.Units.largeSpacing
 
         Item {
             id: iconItem
-            height: parent.height * 0.7
-            width: height
-
-            anchors {
-                top: parent.top
-                topMargin: 2
-            }
-
-            anchors.horizontalCenter: parent.horizontalCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: parent.height * 0.6
 
             Image {
                 id: icon
-                anchors.fill: parent
+                anchors.centerIn: parent
+                width: parent.height
+                height: width
                 sourceSize: Qt.size(width, height)
                 source: iconName
                 visible: !image.visible
@@ -129,31 +92,81 @@ Item {
             Image {
                 id: image
                 anchors.fill: parent
-                source: iconSource
-                sourceSize: Qt.size(width, height)
-                fillMode: Image.PreserveAspectFit
+                fillMode: Image.PreserveAspectCrop
                 visible: status === Image.Ready
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                sourceSize.width: width
+                sourceSize.height: height
+                source: iconSource
                 asynchronous: true
+                cache: true
+
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: Item {
+                        width: image.width
+                        height: image.height
+
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: Math.min(parent.width, image.paintedWidth)
+                            height: Math.min(parent.height, image.paintedHeight)
+                            radius: Meui.Theme.smallRadius
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                anchors.centerIn: parent
+                width: image.status === Image.Ready ? Math.min(parent.width, image.paintedWidth) : parent.width
+                height: image.status === Image.Ready ? Math.min(parent.height, image.paintedHeight) : parent.height
+                border.color: isSelected ? Meui.Theme.highlightColor : Qt.darker(Meui.Theme.backgroundColor, 2.15)
+                border.width: isSelected ? 2 : 1
+                radius: Meui.Theme.smallRadius
+                color: "transparent"
+                opacity: 0.8
+                visible: image.visible
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "transparent"
+                    anchors.margins: 1
+                    radius: parent.radius - 0.5
+                    border.color: Qt.lighter(Meui.Theme.backgroundColor, 2)
+                    opacity: 0.3
+                }
+
             }
         }
 
-        Label {
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: iconItem.bottom
-                bottom: parent.bottom
+        Item {
+            id: textItem
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.preferredHeight: Math.min(_label.implicitHeight, height)
+
+            Rectangle {
+                width: Math.min(_label.implicitWidth + Meui.Units.smallSpacing, parent.width)
+                height: Math.min(_label.implicitHeight + Meui.Units.smallSpacing, parent.height)
+                anchors.centerIn: parent
+                color: isSelected ? Meui.Theme.highlightColor : Meui.Theme.secondBackgroundColor
+                radius: Meui.Theme.smallRadius
+                visible: isSelected | mouseArea.containsMouse
             }
 
-            font.pointSize: 12
-
-            text: fileName
-            // wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            elide: Text.ElideMiddle
-            horizontalAlignment: Text.AlignHCenter
-            color: isSelected
-            ? Meui.Theme.highlightedTextColor
-            : Meui.Theme.textColor
+            Label {
+                id: _label
+                anchors.fill: parent
+                anchors.margins: Meui.Units.smallSpacing
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                elide: Qt.ElideRight
+                wrapMode: Text.Wrap
+                color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+                text: fileName
+            }
         }
     }
 }

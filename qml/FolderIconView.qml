@@ -5,7 +5,7 @@ import MeuiKit 1.0 as Meui
 GridView {
     id: control
 
-    property int itemSize: 128
+    property int itemSize: Math.floor(96 * 1.5)
     property bool enableLassoSelection: true
 
     signal leftClicked()
