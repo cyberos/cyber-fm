@@ -221,6 +221,11 @@ Item {
             if (item)
                 control.moveToTrash([item.path])
         }
+
+        onWallpaperClicked: {
+            if (item)
+                Handy.setAsWallpaper(item.path)
+        }
     }
 
     Connections {

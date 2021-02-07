@@ -16,6 +16,8 @@ Menu {
     signal copyClicked(var item)
     signal cutClicked(var item)
     signal renameClicked(var item)
+    signal wallpaperClicked(var item)
+    signal propertiesClicked(var item)
 
     MenuItem {
         text: qsTr("Open")
@@ -42,6 +44,16 @@ Menu {
     }
 
     MenuItem {
+        text: qsTr("Remove")
+        onTriggered: {
+            removeClicked(control.item)
+            close()
+        }
+    }
+
+    MenuSeparator {}
+
+    MenuItem {
         text: qsTr("Rename")
         onTriggered: {
             renameClicked(control.item)
@@ -50,9 +62,20 @@ Menu {
     }
 
     MenuItem {
-        text: qsTr("Remove")
+        id: wallpaperItem
+        text: qsTr("Set As Wallpaper")
+        visible: false
         onTriggered: {
-            removeClicked(control.item)
+            wallpaperClicked(control.item)
+            close()
+        }
+    }
+
+    MenuItem {
+        id: properties
+        text: qsTr("Properties")
+        onTriggered: {
+            propertiesClicked(control.item)
             close()
         }
     }
@@ -64,6 +87,8 @@ Menu {
             control.index = index
             control.isDir = item.isdir === true || item.isdir === "true"
             control.isExec = item.executable === true || item.executable === "true"
+            wallpaperItem.visible = item.img === "true"
+
             popup()
         }
 

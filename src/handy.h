@@ -74,6 +74,8 @@ public slots:
      * @return
      */
     static bool copyToClipboard(const QVariantMap &value, const bool &cut = false);
+
+    static void setAsWallpaper(const QUrl &url);
 };
 
 #endif // HANDY_H

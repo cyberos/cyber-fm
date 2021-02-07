@@ -26,6 +26,7 @@
 #include <QIcon>
 #include <QMimeData>
 #include <QOperatingSystemVersion>
+#include <QDBusInterface>
 
 Handy::Handy(QObject *parent)
     : QObject(parent)
@@ -86,6 +87,18 @@ bool Handy::copyToClipboard(const QVariantMap &value, const bool &cut)
     clipboard->setMimeData(mimeData);
 
     return true;
+}
+
+void Handy::setAsWallpaper(const QUrl &url)
+{
+    if (!url.isLocalFile())
+        return;
+
+    QDBusInterface iface("org.cyber.Settings", "/Theme",
+                         "org.cyber.Theme",
+                         QDBusConnection::sessionBus(), nullptr);
+    if (iface.isValid())
+        iface.call("setWallpaper", url.toLocalFile());
 }
 
 bool Handy::copyTextToClipboard(const QString &text)

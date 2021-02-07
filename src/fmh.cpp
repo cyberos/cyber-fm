@@ -261,6 +261,8 @@ const FMH::MODEL getFileInfo(const KFileItem &kfile)
                   {MODEL_KEY::MIME, kfile.mimetype()},
                   {MODEL_KEY::GROUP, kfile.group()},
                   {MODEL_KEY::ICON, kfile.iconName()},
+                  // for set wallpaper.
+                  {MODEL_KEY::IMG, QVariant(kfile.mimetype().startsWith("image/")).toString()},
                   {MODEL_KEY::SIZE, QString::number(kfile.size())},
                   {MODEL_KEY::OWNER, kfile.user()},
                   {MODEL_KEY::COUNT, kfile.isLocalFile() && kfile.isDir() ? QString::number(QDir(kfile.localPath()).count()) : "0"}};
