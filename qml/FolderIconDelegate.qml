@@ -8,21 +8,16 @@ import MeuiKit 1.0 as Meui
 Item {
     id: control
 
-    property var model: folderModel
-    property var path: filePath
+    property var label
+    property var iconSource
+    property var imageSource
 
     signal leftClicked
     signal rightClicked
     signal doubleClicked
     signal pressed
 
-    Drag.active: mouseArea.drag.active
-    Drag.dragType: Drag.Automatic
-    Drag.supportedActions: Qt.CopyAction
-    Drag.keys: ["text/uri-list"]
-    Drag.mimeData: { "text/uri-list": "file://" + filePath }
-    Drag.hotSpot.x: control.width / 2
-    Drag.hotSpot.y: control.height / 2
+    property bool isCurrentItem : GridView.isCurrentItem
 
     property color hoveredColor: Qt.rgba(Meui.Theme.textColor.r,
                                          Meui.Theme.textColor.g,
@@ -45,28 +40,6 @@ Item {
         }
 
         onDoubleClicked: control.doubleClicked()
-
-        onPressed: {
-            control.pressed()
-
-            if (mouse.source !== Qt.MouseEventSynthesizedByQt) {
-                if (selection.counter < 2) {
-                    selection.clear()
-                    selection.setIndex(index, true)
-                }
-
-                drag.target = mouseArea
-                control.grabToImage(function(result) {
-                    control.Drag.imageSource = result.url
-                })
-            } else {
-                drag.target = null
-            }
-        }
-
-        onReleased: {
-            drag.target = null
-        }
     }
 
     ColumnLayout {
@@ -84,7 +57,7 @@ Item {
                 width: parent.height
                 height: width
                 sourceSize: Qt.size(width, height)
-                source: iconName
+                source: "image://icontheme/" + control.iconSource
                 visible: !image.visible
                 asynchronous: true
             }
@@ -98,7 +71,7 @@ Item {
                 verticalAlignment: Qt.AlignVCenter
                 sourceSize.width: width
                 sourceSize.height: height
-                source: iconSource
+                source: control.imageSource
                 asynchronous: true
                 cache: true
 
@@ -122,8 +95,8 @@ Item {
                 anchors.centerIn: parent
                 width: image.status === Image.Ready ? Math.min(parent.width, image.paintedWidth) : parent.width
                 height: image.status === Image.Ready ? Math.min(parent.height, image.paintedHeight) : parent.height
-                border.color: isSelected ? Meui.Theme.highlightColor : Qt.darker(Meui.Theme.backgroundColor, 2.15)
-                border.width: isSelected ? 2 : 1
+                border.color: isCurrentItem ? Meui.Theme.highlightColor : Qt.darker(Meui.Theme.backgroundColor, 2.15)
+                border.width: isCurrentItem ? 2 : 1
                 radius: Meui.Theme.smallRadius
                 color: "transparent"
                 opacity: 0.8
@@ -151,9 +124,9 @@ Item {
                 width: Math.min(_label.implicitWidth + Meui.Units.smallSpacing, parent.width)
                 height: Math.min(_label.implicitHeight + Meui.Units.smallSpacing, parent.height)
                 anchors.centerIn: parent
-                color: isSelected ? Meui.Theme.highlightColor : Meui.Theme.secondBackgroundColor
+                color: isCurrentItem ? Meui.Theme.highlightColor : Meui.Theme.secondBackgroundColor
                 radius: Meui.Theme.smallRadius
-                visible: isSelected | mouseArea.containsMouse
+                visible: isCurrentItem | mouseArea.containsMouse
             }
 
             Label {
@@ -164,8 +137,8 @@ Item {
                 verticalAlignment: Qt.AlignVCenter
                 elide: Qt.ElideRight
                 wrapMode: Text.Wrap
-                color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
-                text: fileName
+                color: isCurrentItem ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+                text: label
             }
         }
     }

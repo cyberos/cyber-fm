@@ -44,15 +44,15 @@ Item {
             id: image
             height: parent.height * 0.4
             width: height
-            source: iconSource
+            source: item.iconName
             sourceSize: Qt.size(width, height)
             Layout.alignment: Qt.AlignVCenter
 
-            ColorOverlay {
-                anchors.fill: image
-                source: image
-                color: itemTitle.color
-            }
+//            ColorOverlay {
+//                anchors.fill: image
+//                source: image
+//                color: itemTitle.color
+//            }
         }
 
         Label {

@@ -9,6 +9,11 @@ Item {
     width: ListView.view.width - Meui.Units.largeSpacing * 2
     height: 48
 
+    property var label1
+    property var label2
+    property var iconSource
+    property var imageSource
+
     property color hoverColor: Qt.rgba(Meui.Theme.textColor.r,
                                        Meui.Theme.textColor.g,
                                        Meui.Theme.textColor.b, 0.1)
@@ -21,7 +26,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: Meui.Theme.bigRadius
-        color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
+        // color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
     }
 
     MouseArea {
@@ -61,7 +66,7 @@ Item {
                 height: width
                 sourceSize.width: width
                 sourceSize.height: height
-                source: iconName
+                source: "image://icontheme/" + control.iconSource
                 visible: !image.visible
                 asynchronous: true
             }
@@ -72,7 +77,7 @@ Item {
                 height: width
                 anchors.centerIn: iconItem
                 sourceSize: Qt.size(icon.width, icon.height)
-                source: iconSource
+                source: control.imageSource
                 visible: image.status == Image.Ready
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true
@@ -81,14 +86,14 @@ Item {
         }
 
         Label {
-            text: fileName
+            text: label1
             Layout.fillWidth: true
-            color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            // color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
         }
 
         Label {
-            text: DateUtils.friendlyTime(modifiedDate)
-            color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            text: label2
+            // color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
         }
     }
 }

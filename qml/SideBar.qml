@@ -8,8 +8,14 @@ Item {
     id: control
     implicitWidth: 201
 
-    PlacesModel {
-        id: placesModel
+    signal placeClicked(string path)
+    signal itemClicked(int index)
+
+    onItemClicked: {
+        var item = placesModel.get(index)
+        var path = item.path
+        placesList.clearBadgeCount(index)
+        control.placeClicked(path)
     }
 
     RowLayout {
@@ -23,18 +29,30 @@ Item {
             ListView {
                 id: placesView
                 anchors.fill: parent
-                model: placesModel
                 clip: true
                 spacing: Meui.Units.largeSpacing
+
+                model: BaseModel {
+                    id: placesModel
+                    list: PlacesList {
+                        id: placesList
+                        groups: [
+                            FMList.PLACES_PATH,
+                            FMList.DRIVES_PATH]
+                    }
+                }
 
                 ScrollBar.vertical: ScrollBar {}
                 flickableDirection: Flickable.VerticalFlick
 
                 delegate: SidebarItem {
                     id: listItem
-                    text: displayName
-                    onClicked: folderModel.setPath(path)
-                    highlighted: folderModel.path === path
+                    text: model.label
+                    iconName: "image://icontheme/" + model.icon
+                    onClicked: {
+                        placesView.currentIndex = index
+                        control.itemClicked(index)
+                    }
                 }
             }
         }

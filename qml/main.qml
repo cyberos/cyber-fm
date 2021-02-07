@@ -20,16 +20,11 @@ Meui.Window {
     headerBarHeight: 40 + Meui.Units.largeSpacing
     backgroundColor: Meui.Theme.secondBackgroundColor
 
-    property alias selection: folderModel.selection
     property QtObject settings: GlobalSettings { }
 
     onClosing: {
         settings.width = root.width
         settings.height = root.height
-    }
-
-    FolderListModel {
-        id: folderModel
     }
 
     headerBar: Item {
@@ -44,18 +39,23 @@ Meui.Window {
                 Layout.fillHeight: true
                 implicitWidth: height
                 source: Meui.Theme.darkMode ? "qrc:/images/dark/go-previous.svg" : "qrc:/images/light/go-previous.svg"
+                onClicked: _browserView.goBack()
             }
 
             IconButton {
                 Layout.fillHeight: true
                 implicitWidth: height
                 source: Meui.Theme.darkMode ? "qrc:/images/dark/go-next.svg" : "qrc:/images/light/go-next.svg"
+                onClicked: _browserView.goForward()
             }
 
             PathBar {
                 id: pathBar
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                url: _browserView.path
+                onPlaceClicked: _browserView.openFolder(path)
+                onPathChanged: _browserView.openFolder(path)
             }
 
             IconButton {
@@ -88,14 +88,17 @@ Meui.Window {
                 anchors.topMargin: Meui.Units.largeSpacing
                 anchors.leftMargin: Meui.Units.largeSpacing
                 anchors.rightMargin: 0
-                anchors.bottomMargin: Meui.Units.largeSpacing
                 spacing: Meui.Units.largeSpacing
 
                 SideBar {
                     Layout.fillHeight: true
+                    onPlaceClicked: {
+                        _browserView.openFolder(path)
+                    }
                 }
 
-                FolderPage {
+                BrowserView {
+                    id: _browserView
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }

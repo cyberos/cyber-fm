@@ -2,8 +2,28 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtGraphicalEffects 1.0
 import MeuiKit 1.0 as Meui
+import Cyber.FileManager 1.0
 
 Item {
+    id: control
+
+    property string url: ""
+    signal placeClicked(string path)
+    signal pathChanged(string path)
+
+    onUrlChanged: {
+        _pathList.path = control.url
+    }
+
+    BaseModel {
+        id: _pathModel
+        list: _pathList
+    }
+
+    PathList {
+        id: _pathList
+    }
+
     Rectangle {
         anchors.fill: parent
         radius: Meui.Theme.smallRadius
@@ -13,7 +33,7 @@ Item {
     ListView {
         id: listView
         anchors.fill: parent
-        model: folderModel.pathList
+        model: _pathModel
         orientation: Qt.Horizontal
         layoutDirection: Qt.LeftToRight
         clip: true
@@ -29,7 +49,7 @@ Item {
             height: listView.height
             width: label.width + Meui.Units.largeSpacing * 2
 
-            onClicked: folderModel.openPath(modelData)
+            onClicked: control.placeClicked(model.path)
 
             Rectangle {
                 anchors.fill: parent
@@ -51,7 +71,7 @@ Item {
 
             Label {
                 id: label
-                text: folderModel.dirName(modelData)
+                text: model.label
                 color: index === listView.count - 1 ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
                 anchors.centerIn: parent
             }
@@ -76,11 +96,12 @@ Item {
         height: parent.height
         visible: false
         selectByMouse: true
+        inputMethodHints: Qt.ImhUrlCharactersOnly | Qt.ImhNoAutoUppercase
 
-        text: folderModel.path
+        text: control.url
 
         onAccepted: {
-            folderModel.setPath(addressEdit.text)
+            control.pathChanged(text)
             hideTextField()
         }
 

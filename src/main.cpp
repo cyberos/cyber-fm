@@ -20,11 +20,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "folderlistmodel.h"
-#include "placesmodel.h"
-#include "dateutils.h"
-#include "thumbnailer/nemothumbnailprovider.h"
-#include "thumbnailer/nemothumbnailitem.h"
+#include "fmlist.h"
+#include "fm.h"
+#include "mauimodel.h"
+#include "mauilist.h"
+#include "handy.h"
+#include "placeslist.h"
+#include "pathlist.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,11 +36,22 @@ int main(int argc, char *argv[])
     app.setOrganizationName("cyberos");
 
     const char *uri = "Cyber.FileManager";
-    qmlRegisterType<FolderListModel>(uri, 1, 0, "FolderListModel");
-    qmlRegisterType<PlacesModel>(uri, 1, 0, "PlacesModel");
-    qmlRegisterType<NemoThumbnailItem>(uri, 1, 0, "Thumbnail");
-    qmlRegisterSingletonType<DateUtils>(uri, 1, 0, "DateUtils", [](QQmlEngine *, QJSEngine *) -> QObject * {
-        return new DateUtils;
+    qmlRegisterAnonymousType<MauiList>(uri, 1); // ABSTRACT BASE LIST
+    qmlRegisterType<MauiModel>(uri, 1, 0, "BaseModel"); // BASE MODEL
+    qmlRegisterType<PlacesList>(uri, 1, 0, "PlacesList");
+    qmlRegisterType<PathList>(uri, 1, 0, "PathList");
+
+    qmlRegisterType<FMList>(uri, 1, 0, "FMList");
+    qmlRegisterSingletonType<FMStatic>(uri, 1, 0, "FM", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
+        return new FMStatic;
+    });
+
+    qmlRegisterSingletonType<Handy>(uri, 1, 0, "Handy", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
+        return new Handy;
     });
 
     QQmlApplicationEngine engine;
@@ -49,8 +62,6 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-
-    engine.addImageProvider(QLatin1String("thumbnail"), new NemoThumbnailProvider);
 
     return app.exec();
 }

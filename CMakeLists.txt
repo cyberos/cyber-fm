@@ -8,31 +8,24 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Core Quick Concurrent DBus REQUIRED)
+find_package(KF5KIO)
 find_package(MeuiKit REQUIRED)
 
 add_executable(cyber-fm
-    main.cpp
-    folderlistmodel.cpp
-    fileitem.cpp
-    fileloader.cpp
-    filelauncher.cpp
-    placesmodel.cpp
-    dateutils.cpp
-    dirselection.cpp
-    dirlister.cpp
-    xdgmimeapps.cpp
-    xdgdesktopfile.cpp
-
-    thumbnailer/linkedlist.h
-    thumbnailer/nemoimagemetadata.cpp
-    thumbnailer/nemothumbnailcache.cpp
-    thumbnailer/nemothumbnailitem.cpp
-    thumbnailer/nemothumbnailprovider.cpp
-
+    src/main.cpp
+    src/fm.cpp
+    src/fmh.cpp
+    src/fmstatic.cpp
+    src/fmlist.cpp
+    src/handy.cpp
+    src/placeslist.cpp
+    src/pathlist.cpp
+    src/mauilist.cpp
+    src/mauimodel.cpp
     qml.qrc
 )
 
@@ -43,6 +36,11 @@ target_link_libraries(cyber-fm
     Qt5::Quick
     Qt5::Concurrent
     Qt5::DBus
+
+    KF5::KIOCore
+    KF5::KIOFileWidgets
+    KF5::KIOWidgets
+
     MeuiKit
 )
 

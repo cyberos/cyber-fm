@@ -97,6 +97,10 @@ Menu {
     MenuItem {
         id: deleteAction
         text: qsTr("Delete")
+
+        onTriggered: {
+            folderModel.moveToTrash(selectionUrls())
+        }
     }
 
     MenuSeparator { }
@@ -121,5 +125,15 @@ Menu {
     MenuItem {
         id: properties
         text: qsTr("Properties")
+    }
+
+    function selectionUrls() {
+        var indexes = selection.selectedIndexes()
+        var urls = []
+        for (var i = 0; i < indexes.length; ++i) {
+            urls.push("file:///" + folderModel.get(indexes[i], FolderListModel.FilePathRole))
+        }
+
+        return urls
     }
 }
