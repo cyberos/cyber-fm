@@ -24,27 +24,13 @@
 #include <QIcon>
 #include <QTimer>
 
-#if defined Q_OS_LINUX && !defined Q_OS_ANDROID
 #include <KFilePlacesModel>
-#endif
 
-#ifdef COMPONENT_TAGGING
-#include "tagging.h"
-#endif
-
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-PlacesList::PlacesList(QObject *parent)
-    : MauiList(parent)
-    , fm(new FM(this))
-    , model(nullptr)
-    , watcher(new QFileSystemWatcher(this))
-#else
 PlacesList::PlacesList(QObject *parent)
     : MauiList(parent)
     , fm(new FM(this))
     , model(new KFilePlacesModel(this))
     , watcher(new QFileSystemWatcher(this))
-#endif
 {
     /*
      *  The watcher signal returns a local file URL withouth a scheme, and the model is using a local file URL with file:// scheme.
@@ -116,10 +102,6 @@ FMH::MODEL_LIST PlacesList::getGroup(const KFilePlacesModel &model, const FMH::P
         res << FMH::MODEL {{FMH::MODEL_KEY::PATH, "recentdocuments:///"}, {FMH::MODEL_KEY::ICON, "view-media-recent"}, {FMH::MODEL_KEY::LABEL, "Recent"}, {FMH::MODEL_KEY::TYPE, "Quick"}};
 #endif
 
-#ifdef COMPONENT_TAGGING
-        res << FMH::MODEL {{FMH::MODEL_KEY::PATH, "tags:///"}, {FMH::MODEL_KEY::ICON, "tag"}, {FMH::MODEL_KEY::LABEL, "Tags"}, {FMH::MODEL_KEY::TYPE, "Quick"}};
-#endif
-
         return res;
     }
 
@@ -127,19 +109,6 @@ FMH::MODEL_LIST PlacesList::getGroup(const KFilePlacesModel &model, const FMH::P
         res << FMStatic::getDefaultPaths();
     }
 
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-    Q_UNUSED(model)
-    switch (type) {
-    case (FMH::PATHTYPE_KEY::PLACES_PATH):
-        res << FMStatic::packItems(UTIL::loadSettings("BOOKMARKS", "PREFERENCES", {}, true).toStringList(), FMH::PATHTYPE_LABEL[FMH::PATHTYPE_KEY::BOOKMARKS_PATH]);
-        break;
-    case (FMH::PATHTYPE_KEY::DRIVES_PATH):
-        res = FMStatic::getDevices();
-        break;
-    default:
-        break;
-    }
-#else
     const auto group = model.groupIndexes(static_cast<KFilePlacesModel::GroupType>(type));
     res << std::accumulate(group.constBegin(), group.constEnd(), FMH::MODEL_LIST(), [&model, &type](FMH::MODEL_LIST &list, const QModelIndex &index) -> FMH::MODEL_LIST {
         const QUrl url = model.url(index);
@@ -158,7 +127,6 @@ FMH::MODEL_LIST PlacesList::getGroup(const KFilePlacesModel &model, const FMH::P
 
         return list;
     });
-#endif
 
     return res;
 }
@@ -197,10 +165,6 @@ void PlacesList::setList()
 
         case FMH::PATHTYPE_KEY::REMOVABLE_PATH:
             this->list << getGroup(*this->model, FMH::PATHTYPE_KEY::REMOVABLE_PATH);
-            break;
-
-        case FMH::PATHTYPE_KEY::TAGS_PATH:
-            this->list << FMStatic::getTags();
             break;
         }
     }
@@ -258,16 +222,10 @@ void PlacesList::removePlace(const int &index)
     if (index >= this->list.size() || index < 0)
         return;
 
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-    auto bookmarks = UTIL::loadSettings("BOOKMARKS", "PREFERENCES", {}, true).toStringList();
-    bookmarks.removeOne(this->list.at(index)[FMH::MODEL_KEY::PATH]);
-    UTIL::saveSettings("BOOKMARKS", bookmarks, "PREFERENCES", true);
-#else
     emit this->preItemRemoved(index);
     this->model->removePlace(this->model->closestItem(this->list.at(index)[FMH::MODEL_KEY::PATH]));
     this->list.removeAt(index);
     emit this->postItemRemoved();
-#endif
 }
 
 bool PlacesList::contains(const QUrl &path)

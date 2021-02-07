@@ -72,55 +72,6 @@ const QStringList modelToList(const FMH::MODEL_LIST &list, const FMH::MODEL_KEY 
     });
 }
 
-bool isAndroid()
-{
-#if defined(Q_OS_ANDROID)
-    return true;
-#else
-    return false;
-#endif
-}
-
-bool isWindows()
-{
-#if defined(Q_OS_WIN32)
-    return true;
-#elif defined(Q_OS_WIN64)
-    return true;
-#else
-    return false;
-#endif
-}
-
-bool isLinux()
-{
-#if defined Q_OS_LINUX && !defined Q_OS_ANDROID
-    return true;
-#else
-    return false;
-#endif
-}
-
-bool isMac()
-{
-#if defined(Q_OS_MACOS)
-    return true;
-#elif defined(Q_OS_MAC)
-    return true;
-#else
-    return false;
-#endif
-}
-
-bool isIOS()
-{
-#if defined(Q_OS_iOS)
-    return true;
-#else
-    return false;
-#endif
-}
-
 bool fileExists(const QUrl &path)
 {
     if (!path.isLocalFile()) {

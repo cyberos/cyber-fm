@@ -18,80 +18,20 @@
  */
 
 #include "handy.h"
+#include "fmh.h"
 
+#include <QApplication>
 #include <QClipboard>
 #include <QDebug>
 #include <QIcon>
 #include <QMimeData>
 #include <QOperatingSystemVersion>
-#include <QTouchDevice>
-
-#ifdef Q_OS_ANDROID
-#include <QGuiApplication>
-#else
-#include <QApplication>
-#endif
-
-#include "fmh.h"
-
-#if defined Q_OS_LINUX && !defined Q_OS_ANDROID
-#include <KSharedConfig>
-#include <QFileSystemWatcher>
-#endif
-
-static const QUrl CONF_FILE = FMH::ConfigPath + "/kdeglobals";
-
-#ifdef KSHAREDCONFIG_H
-static const auto confCheck = [](QString key, QVariant defaultValue) -> QVariant {
-    auto kconf = KSharedConfig::openConfig("kdeglobals");
-    const auto group = kconf->group("KDE");
-    if (group.hasKey(key))
-        return group.readEntry(key, defaultValue);
-
-    return defaultValue;
-};
-#endif
 
 Handy::Handy(QObject *parent)
     : QObject(parent)
-    , m_isTouch(Handy::isTouch())
 {
-#if defined Q_OS_LINUX && !defined Q_OS_ANDROID
 
-    auto configWatcher = new QFileSystemWatcher({CONF_FILE.toLocalFile()}, this);
-
-    m_singleClick = confCheck("SingleClick", m_singleClick).toBool();
-    emit singleClickChanged();
-
-    connect(configWatcher, &QFileSystemWatcher::fileChanged, [&](QString) {
-        m_singleClick = confCheck("SingleClick", m_singleClick).toBool();
-        emit singleClickChanged();
-    });
-#elif defined Q_OS_MAC || defined Q_OS_WIN32
-
-    m_singleClick = false;
-    emit singleClickChanged();
-
-#endif
 }
-
-#ifdef Q_OS_ANDROID
-static inline struct {
-    QList<QUrl> urls;
-    QString text;
-    bool cut = false;
-
-    bool hasUrls()
-    {
-        return !urls.isEmpty();
-    }
-    bool hasText()
-    {
-        return !text.isEmpty();
-    }
-
-} _clipboard;
-#endif
 
 QVariantMap Handy::userInfo()
 {
@@ -104,11 +44,7 @@ QVariantMap Handy::userInfo()
 
 QString Handy::getClipboardText()
 {
-#ifdef Q_OS_ANDROID
-    auto clipbopard = QGuiApplication::clipboard();
-#else
     auto clipbopard = QApplication::clipboard();
-#endif
 
     auto mime = clipbopard->mimeData();
     if (mime->hasText())
@@ -120,15 +56,7 @@ QString Handy::getClipboardText()
 QVariantMap Handy::getClipboard()
 {
     QVariantMap res;
-#ifdef Q_OS_ANDROID
-    if (_clipboard.hasUrls())
-        res.insert("urls", QUrl::toStringList(_clipboard.urls));
 
-    if (_clipboard.hasText())
-        res.insert("text", _clipboard.text);
-
-    res.insert("cut", _clipboard.cut);
-#else
     auto clipboard = QApplication::clipboard();
 
     auto mime = clipboard->mimeData();
@@ -139,25 +67,12 @@ QVariantMap Handy::getClipboard()
         res.insert("text", mime->text());
 
     const QByteArray a = mime->data(QStringLiteral("application/x-kde-cutselection"));
-
     res.insert("cut", (!a.isEmpty() && a.at(0) == '1'));
-#endif
     return res;
 }
 
 bool Handy::copyToClipboard(const QVariantMap &value, const bool &cut)
 {
-#ifdef Q_OS_ANDROID
-    if (value.contains("urls"))
-        _clipboard.urls = QUrl::fromStringList(value["urls"].toStringList());
-
-    if (value.contains("text"))
-        _clipboard.text = value["text"].toString();
-
-    _clipboard.cut = cut;
-
-    return true;
-#else
     auto clipboard = QApplication::clipboard();
     QMimeData *mimeData = new QMimeData();
 
@@ -171,70 +86,15 @@ bool Handy::copyToClipboard(const QVariantMap &value, const bool &cut)
     clipboard->setMimeData(mimeData);
 
     return true;
-#endif
-
-    return false;
 }
 
 bool Handy::copyTextToClipboard(const QString &text)
 {
-#ifdef Q_OS_ANDROID
-    Handy::copyToClipboard({{"text", text}});
-#else
     QApplication::clipboard()->setText(text);
-#endif
     return true;
 }
 
 int Handy::version()
 {
     return QOperatingSystemVersion::current().majorVersion();
-}
-
-bool Handy::isAndroid()
-{
-    return FMH::isAndroid();
-}
-
-bool Handy::isLinux()
-{
-    return FMH::isLinux();
-}
-
-bool Handy::isIOS()
-{
-    return FMH::isIOS();
-}
-
-bool Handy::isTouch()
-{
-    const auto devices = QTouchDevice::devices();
-    for (const auto &device : devices) {
-        if (device->type() == QTouchDevice::TouchScreen)
-            return true;
-        qDebug() << "DEVICE CAPABILITIES" << device->capabilities() << device->name();
-    }
-
-    return false;
-}
-
-bool Handy::hasKeyboard()
-{
-    return false;
-}
-
-bool Handy::hasMouse()
-{
-    return false;
-    //return Platform::instance()->hasMouse();
-}
-
-bool Handy::isWindows()
-{
-    return FMH::isWindows();
-}
-
-bool Handy::isMac()
-{
-    return FMH::isMac();
 }

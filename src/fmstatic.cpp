@@ -74,11 +74,6 @@ FMH::MODEL_LIST FMStatic::getDevices()
 {
     FMH::MODEL_LIST drives;
 
-#ifdef Q_OS_ANDROID
-    drives << packItems(MAUIAndroid::sdDirs(), FMH::PATHTYPE_LABEL[FMH::PATHTYPE_KEY::DRIVES_PATH]);
-    return drives;
-#endif
-
     return drives;
 }
 
@@ -160,69 +155,12 @@ QString FMStatic::homePath()
 {
     return FMH::HomePath;
 }
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-
-static bool copyRecursively(QString sourceFolder, QString destFolder)
-{
-    bool success = false;
-    QDir sourceDir(sourceFolder);
-
-    if (!sourceDir.exists())
-        return false;
-
-    QDir destDir(destFolder);
-    if (!destDir.exists())
-        destDir.mkdir(destFolder);
-
-    QStringList files = sourceDir.entryList(QDir::Files);
-    for (int i = 0; i < files.count(); i++) {
-        QString srcName = sourceFolder + QDir::separator() + files[i];
-        QString destName = destFolder + QDir::separator() + files[i];
-        success = QFile::copy(srcName, destName);
-        if (!success)
-            return false;
-    }
-
-    files.clear();
-    files = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-    for (int i = 0; i < files.count(); i++) {
-        QString srcName = sourceFolder + QDir::separator() + files[i];
-        QString destName = destFolder + QDir::separator() + files[i];
-        success = copyRecursively(srcName, destName);
-        if (!success)
-            return false;
-    }
-
-    return true;
-}
-#endif
 
 bool FMStatic::copy(const QList<QUrl> &urls, const QUrl &destinationDir)
 {
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-    for (const auto &url : urls) {
-        QFileInfo srcFileInfo(url.toLocalFile());
-        if (!srcFileInfo.isDir() && srcFileInfo.isFile()) {
-            const auto _destination = QUrl(destinationDir.toString() + "/" + FMH::getFileInfoModel(url)[FMH::MODEL_KEY::LABEL]);
-            if (!QFile::copy(url.toLocalFile(), _destination.toLocalFile())) {
-                continue;
-            }
-        } else {
-            const auto _destination = QUrl(destinationDir.toString() + "/" + FMH::getFileInfoModel(url)[FMH::MODEL_KEY::LABEL]);
-            QDir destDir(_destination.toLocalFile());
-            if (!destDir.exists())
-                destDir.mkdir(_destination.toLocalFile());
-
-            if (!copyRecursively(url.toLocalFile(), _destination.toLocalFile()))
-                continue;
-        }
-    }
-    return true;
-#else
     auto job = KIO::copy(urls, destinationDir);
     job->start();
     return true;
-#endif
 }
 
 bool FMStatic::cut(const QList<QUrl> &urls, const QUrl &where)
@@ -250,20 +188,14 @@ bool FMStatic::removeFiles(const QList<QUrl> &urls)
 
 void FMStatic::moveToTrash(const QList<QUrl> &urls)
 {
-#if defined Q_OS_LINUX && !defined Q_OS_ANDROID
     auto job = KIO::trash(urls);
     job->start();
-#else
-    Q_UNUSED(urls)
-#endif
 }
 
 void FMStatic::emptyTrash()
 {
-#if defined Q_OS_LINUX && !defined Q_OS_ANDROID
     auto job = KIO::emptyTrash();
     job->start();
-#endif
 }
 
 bool FMStatic::removeDir(const QUrl &path)
@@ -296,14 +228,9 @@ bool FMStatic::rename(const QUrl &url, const QString &name)
 
 bool FMStatic::createDir(const QUrl &path, const QString &name)
 {
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-    QFileInfo dd(path.toLocalFile());
-    return QDir(path.toLocalFile()).mkdir(name);
-#else
     auto job = KIO::mkdir(name.isEmpty() ? path : QUrl(path.toString() + "/" + name));
     job->start();
     return true;
-#endif
 }
 
 bool FMStatic::createFile(const QUrl &path, const QString &name)
@@ -320,14 +247,10 @@ bool FMStatic::createFile(const QUrl &path, const QString &name)
 
 bool FMStatic::createSymlink(const QUrl &path, const QUrl &where)
 {
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-    return QFile::link(path.toLocalFile(), where.toLocalFile() + "/" + QFileInfo(path.toLocalFile()).fileName());
-#else
     qDebug() << "trying to create symlink" << path << where;
     const auto job = KIO::link({path}, where);
     job->start();
     return true;
-#endif
 }
 
 bool FMStatic::openUrl(const QUrl &url)
@@ -357,35 +280,6 @@ bool FMStatic::checkFileType(const int &type, const QString &mimeTypeName)
     return FMH::checkFileType(static_cast<FMH::FILTER_TYPE>(type), mimeTypeName);
 }
 
-bool FMStatic::toggleFav(const QUrl &url)
-{
-    if (FMStatic::isFav(url))
-        return FMStatic::unFav(url);
-
-    return FMStatic::fav(url);
-}
-
-bool FMStatic::fav(const QUrl &url)
-{
-#ifdef COMPONENT_TAGGING
-    return Tagging::getInstance()->tagUrl(url.toString(), "fav", "#e91e63");
-#endif
-}
-
-bool FMStatic::unFav(const QUrl &url)
-{
-#ifdef COMPONENT_TAGGING
-    return Tagging::getInstance()->removeUrlTag(url.toString(), "fav");
-#endif
-}
-
-bool FMStatic::isFav(const QUrl &url, const bool &strict)
-{
-#ifdef COMPONENT_TAGGING
-    return Tagging::getInstance()->urlTagExists(url.toString(), "fav", strict);
-#endif
-}
-
 static bool doNameFilter(const QString &name, const QStringList &filters)
 {
     const auto filtersAccumulate = std::accumulate(filters.constBegin(), filters.constEnd(), QVector<QRegExp> {}, [](QVector<QRegExp> &res, const QString &filter) -> QVector<QRegExp> {
@@ -399,113 +293,6 @@ static bool doNameFilter(const QString &name, const QStringList &filters)
         }
     }
     return false;
-}
-
-QList<QUrl> FMStatic::getTagUrls(const QString &tag, const QStringList &filters, const bool &strict, const int &limit, const QString &mime)
-{
-    QList<QUrl> urls;
-#ifdef COMPONENT_TAGGING
-
-    std::function<bool(QVariantMap & item)> filter = nullptr;
-
-    if (!filters.isEmpty())
-        filter = [filters](QVariantMap &item) -> bool {
-            return doNameFilter(FMH::mapValue(item, FMH::MODEL_KEY::URL), filters);
-        };
-
-    const auto tagUrls = Tagging::getInstance()->getUrls(tag, strict, limit, mime, filter);
-    for (const auto &data : tagUrls) {
-        const auto url = QUrl(data.toMap()[FMH::MODEL_NAME[FMH::MODEL_KEY::URL]].toString());
-        if (url.isLocalFile() && !FMH::fileExists(url))
-            continue;
-        urls << url;
-    }
-#endif
-    return urls;
-}
-
-FMH::MODEL_LIST FMStatic::getTags(const int &limit)
-{
-    Q_UNUSED(limit);
-    FMH::MODEL_LIST data;
-#ifdef COMPONENT_TAGGING
-    const auto tags = Tagging::getInstance()->getAllTags(false);
-    for (const auto &tag : tags) {
-        const QVariantMap item = tag.toMap();
-        const auto label = item.value(FMH::MODEL_NAME[FMH::MODEL_KEY::TAG]).toString();
-
-        data << FMH::MODEL {{FMH::MODEL_KEY::PATH, FMH::PATHTYPE_URI[FMH::PATHTYPE_KEY::TAGS_PATH] + label},
-                            {FMH::MODEL_KEY::ICON, item.value(FMH::MODEL_NAME[FMH::MODEL_KEY::ICON], "tag").toString()},
-                            {FMH::MODEL_KEY::MODIFIED, QDateTime::fromString(item.value(FMH::MODEL_NAME[FMH::MODEL_KEY::ADDDATE]).toString(), Qt::TextDate).toString()},
-                            {FMH::MODEL_KEY::IS_DIR, "true"},
-                            {FMH::MODEL_KEY::LABEL, label},
-                            {FMH::MODEL_KEY::TYPE, FMH::PATHTYPE_LABEL[FMH::PATHTYPE_KEY::TAGS_PATH]}};
-    }
-#endif
-
-    return data;
-}
-
-FMH::MODEL_LIST FMStatic::getTagContent(const QString &tag, const QStringList &filters)
-{
-    FMH::MODEL_LIST content;
-#ifdef COMPONENT_TAGGING
-    if (tag.isEmpty()) {
-        return FMStatic::getTags();
-    } else {
-        const auto urls = FMStatic::getTagUrls(tag, filters, false);
-        for (const auto &url : urls) {
-            content << FMH::getFileInfoModel(url);
-        }
-    }
-#endif
-    return content;
-}
-
-FMH::MODEL_LIST FMStatic::getUrlTags(const QUrl &url)
-{
-    FMH::MODEL_LIST content;
-#ifdef COMPONENT_TAGGING
-    content = FMH::toModelList(Tagging::getInstance()->getUrlTags(url.toString(), false));
-#endif
-    return content;
-}
-
-bool FMStatic::urlTagExists(const QUrl &url, const QString tag)
-{
-#ifdef COMPONENT_TAGGING
-    return Tagging::getInstance()->urlTagExists(url.toString(), tag, false);
-#endif
-}
-
-bool FMStatic::addTagToUrl(const QString tag, const QUrl &url)
-{
-#ifdef COMPONENT_TAGGING
-    return Tagging::getInstance()->tagUrl(url.toString(), tag);
-#endif
-}
-
-bool FMStatic::removeTagToUrl(const QString tag, const QUrl &url)
-{
-#ifdef COMPONENT_TAGGING
-    return Tagging::getInstance()->removeUrlTag(url.toString(), tag);
-#endif
-}
-
-void FMStatic::bookmark(const QUrl &url)
-{
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS
-    // do android stuff until cmake works with android
-    if (isDefaultPath(url.toString()))
-        return;
-
-    auto bookmarks = UTIL::loadSettings("BOOKMARKS", "PREFERENCES", {}, true).toStringList();
-    bookmarks << url.toString();
-    UTIL::saveSettings("BOOKMARKS", bookmarks, "PREFERENCES", true);
-#else
-    KFilePlacesModel model;
-    model.addPlace(QDir(url.toLocalFile()).dirName(), url, FMH::getIconName(url));
-#endif
 }
 
 QStringList FMStatic::nameFilters(const int &type)

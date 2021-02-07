@@ -138,10 +138,6 @@ void FMList::setList()
     this->clear();
 
     switch (this->pathType) {
-    case FMList::PATHTYPE::TAGS_PATH:
-        this->assignList(FMStatic::getTagContent(this->path.fileName(), QStringList() << this->filters << FMH::FILTER_LIST[static_cast<FMH::FILTER_TYPE>(this->filterType)]));
-        break; // SYNC
-
     case FMList::PATHTYPE::CLOUD_PATH:
         this->fm->getCloudServerContent(this->path.toString(), this->filters, this->cloudDepth);
         break; // ASYNC

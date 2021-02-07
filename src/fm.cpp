@@ -25,10 +25,6 @@
 #include <QRegularExpression>
 #include <QUrl>
 
-#if defined(Q_OS_ANDROID)
-#include "platforms/android/mauiandroid.h"
-#elif defined Q_OS_LINUX
-// #include "platforms/linux/mauilinux.h"
 #include <KCoreDirLister>
 #include <KFileItem>
 #include <KFilePlacesModel>
@@ -37,193 +33,14 @@
 #include <KIO/MkdirJob>
 #include <KIO/SimpleJob>
 #include <QIcon>
-#endif
-
-#if defined(Q_OS_ANDROID) || defined(Q_OS_WIN) || defined(Q_OS_MACOS)
-#include "fileloader.h"
-
-#include <QFileSystemWatcher>
-
-QDirLister::QDirLister(QObject *parent)
-    : QObject(parent)
-    , m_loader(new FMH::FileLoader)
-    , m_watcher(new QFileSystemWatcher(this))
-{
-    m_loader->setBatchCount(20);
-    m_loader->informer = &FMH::getFileInfoModel;
-    connect(m_loader, &FMH::FileLoader::itemsReady, [this](FMH::MODEL_LIST items, QList<QUrl> urls) {
-        emit this->itemsReady(items, urls.first());
-    });
-
-    connect(m_loader, &FMH::FileLoader::itemReady, [this](FMH::MODEL item, QList<QUrl> urls) {
-        this->m_list << item;
-        this->m_watcher->addPath(QUrl(item[FMH::MODEL_KEY::URL]).toLocalFile());
-        emit this->itemReady(item, urls.first());
-    });
-
-    connect(m_loader, &FMH::FileLoader::finished, [this](FMH::MODEL_LIST, QList<QUrl> urls) {
-        emit this->completed(urls.first());
-    });
-
-    connect(this->m_watcher, &QFileSystemWatcher::directoryChanged, [&](const QString &path) {
-        if (path == this->m_url.toLocalFile()) {
-            this->reviewChanges();
-        }
-    });
-
-    connect(this->m_watcher, &QFileSystemWatcher::fileChanged, [&](const QString &path) {
-        const auto fileUrl = QUrl::fromLocalFile(path);
-        if (this->includes(fileUrl)) {
-            if (FMH::fileExists(fileUrl)) {
-                emit this->refreshItems({{this->m_list.at(this->indexOf(FMH::MODEL_KEY::URL, fileUrl.toString())), FMH::getFileInfoModel(fileUrl)}}, this->m_url);
-            }
-        }
-    });
-}
-
-void QDirLister::reviewChanges()
-{
-    if (this->m_checking)
-        return;
-
-    this->m_checking = true;
-    auto checkLoader = new FMH::FileLoader;
-    checkLoader->informer = &FMH::getFileInfoModel;
-
-    qDebug() << "Doign the check" << m_checking;
-
-    FMH::MODEL_LIST removedItems;
-    const auto mlist = this->m_list; // use a copy to not affect the list indexes on the iterations
-    for (const auto &item : qAsConst(mlist)) {
-        const auto fileUrl = QUrl(item[FMH::MODEL_KEY::URL]);
-
-        if (!FMH::fileExists(fileUrl)) {
-            const auto index = this->indexOf(FMH::MODEL_KEY::URL, fileUrl.toString());
-
-            if (index < this->m_list.count() && index >= 0) {
-                removedItems << item;
-                this->m_list.remove(index);
-                this->m_watcher->removePath(fileUrl.toLocalFile());
-            }
-        }
-    }
-
-    if (!removedItems.isEmpty())
-        emit this->itemsDeleted(removedItems, this->m_url);
-
-    connect(checkLoader, &FMH::FileLoader::itemsReady, [=](FMH::MODEL_LIST items, QList<QUrl> urls) {
-        if (urls.first() == this->m_url) {
-            FMH::MODEL_LIST newItems;
-            for (const auto &item : qAsConst(items)) {
-                const auto fileUrl = QUrl(item[FMH::MODEL_KEY::URL]);
-                if (!this->includes(fileUrl)) {
-                    newItems << item;
-
-                    this->m_list << item;
-                    this->m_watcher->addPath(fileUrl.toLocalFile());
-                }
-            }
-
-            if (!newItems.isEmpty())
-                emit this->itemsAdded(newItems, this->m_url);
-        }
-
-        checkLoader->deleteLater();
-        this->m_checking = false;
-    });
-
-    connect(checkLoader, &FMH::FileLoader::finished, [=](FMH::MODEL_LIST, QList<QUrl>) {
-        checkLoader->deleteLater();
-        this->m_checking = false;
-    });
-
-    QDir::Filters dirFilter = (m_dirOnly ? QDir::AllDirs | QDir::NoDotDot | QDir::NoDot : QDir::Files | QDir::AllDirs | QDir::NoDotDot | QDir::NoDot);
-
-    if (m_showDotFiles)
-        dirFilter = dirFilter | QDir::Hidden | QDir::System;
-
-    checkLoader->requestPath({this->m_url}, false, m_nameFilters.isEmpty() ? QStringList() : m_nameFilters.split(" "), dirFilter);
-}
-
-bool QDirLister::includes(const QUrl &url)
-{
-    return this->indexOf(FMH::MODEL_KEY::URL, url.toString()) >= 0;
-}
-
-int QDirLister::indexOf(const FMH::MODEL_KEY &key, const QString &value) const
-{
-    const auto items = this->m_list;
-    const auto it = std::find_if(items.constBegin(), items.constEnd(), [&](const FMH::MODEL &item) -> bool {
-        return item[key] == value;
-    });
-
-    if (it != items.constEnd())
-        return std::distance(items.constBegin(), it);
-    else
-        return -1;
-}
-
-bool QDirLister::openUrl(const QUrl &url)
-{
-    //    if(this->m_url == url)
-    //        return false;
-
-    qDebug() << "open URL" << url;
-    this->m_url = url;
-    this->m_list.clear();
-    this->m_watcher->removePaths(QStringList() << this->m_watcher->directories() << this->m_watcher->files());
-
-    if (FMStatic::isDir(this->m_url)) {
-        this->m_watcher->addPath(this->m_url.toLocalFile());
-
-        QDir::Filters dirFilter = (m_dirOnly ? QDir::AllDirs | QDir::NoDotDot | QDir::NoDot : QDir::Files | QDir::AllDirs | QDir::NoDotDot | QDir::NoDot);
-
-        if (m_showDotFiles)
-            dirFilter = dirFilter | QDir::Hidden | QDir::System;
-
-        m_loader->requestPath({this->m_url}, false, m_nameFilters.isEmpty() ? QStringList() : m_nameFilters.split(" "), dirFilter);
-
-    } else
-        return false;
-
-    return true;
-}
-
-void QDirLister::setDirOnlyMode(bool value)
-{
-    m_dirOnly = value;
-}
-
-void QDirLister::setShowingDotFiles(bool value)
-{
-    m_showDotFiles = value;
-}
-
-void QDirLister::setNameFilter(QString filters)
-{
-    m_nameFilters = filters;
-}
-#endif
 
 FM::FM(QObject *parent)
     : QObject(parent)
 #ifdef COMPONENT_SYNCING
     , sync(new Syncing(this))
 #endif
-#ifdef COMPONENT_TAGGING
-    , tag(Tagging::getInstance())
-#endif
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     , dirLister(new KCoreDirLister(this))
-#else
-    , dirLister(new QDirLister)
-#endif
 {
-#ifdef Q_OS_ANDROID
-    MAUIAndroid::checkRunTimePermissions({"android.permission.WRITE_EXTERNAL_STORAGE"});
-#endif
-
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     this->dirLister->setAutoUpdate(true);
 
     const static auto packItems = [](const KFileItemList &items) -> FMH::MODEL_LIST {
@@ -268,31 +85,6 @@ FM::FM(QObject *parent)
 
         emit this->pathContentItemsChanged(res);
     });
-#else
-    connect(dirLister, &QDirLister::itemsReady, this, [&](FMH::MODEL_LIST items, QUrl url) {
-        emit this->pathContentItemsReady({url, items});
-    });
-
-    connect(dirLister, &QDirLister::completed, this, [&](QUrl url) {
-        emit this->pathContentReady(url);
-    });
-
-    connect(dirLister, &QDirLister::refreshItems, this, [&](QVector<QPair<FMH::MODEL, FMH::MODEL>> items, QUrl) {
-        qDebug() << "ITEMS WERE REFRESHED";
-        emit this->pathContentItemsChanged(items);
-    });
-
-    connect(dirLister, &QDirLister::itemsAdded, this, [&](FMH::MODEL_LIST items, QUrl url) {
-        qDebug() << "MORE ITEMS WERE ADDED";
-        emit this->pathContentItemsReady({url, items});
-    });
-
-    connect(dirLister, &QDirLister::itemsDeleted, this, [&](FMH::MODEL_LIST items, QUrl url) {
-        qDebug() << "ITEMS WERE DELETED";
-        emit this->pathContentItemsRemoved({url, items});
-    });
-
-#endif
 
 #ifdef COMPONENT_SYNCING
     connect(this->sync, &Syncing::listReady, [this](const FMH::MODEL_LIST &list, const QUrl &url) {
@@ -445,27 +237,5 @@ bool FM::cut(const QList<QUrl> &urls, const QUrl &where)
 
 bool FM::copy(const QList<QUrl> &urls, const QUrl &where)
 {
-    // 	QStringList cloudPaths;
-
     return FMStatic::copy(urls, where);
-
-#ifdef COMPONENT_SYNCING
-    // 	if(!cloudPaths.isEmpty())
-    // 	{
-    // 		qDebug()<<"UPLOAD QUEUE" << cloudPaths;
-    // 		const auto firstPath = cloudPaths.takeLast();
-    // 		this->sync->setUploadQueue(cloudPaths);
-    //
-    // 		if(where.toString().split("/").last().contains("."))
-    // 		{
-    // 			QStringList whereList = where.toString().split("/");
-    // 			whereList.removeLast();
-    // 			auto whereDir = whereList.join("/");
-    // 			qDebug()<< "Trying ot copy to cloud" << where << whereDir;
-    //
-    // 			this->sync->upload(this->resolveLocalCloudPath(whereDir), firstPath);
-    // 		} else
-    // 			this->sync->upload(this->resolveLocalCloudPath(where.toString()), firstPath);
-    // 	}
-#endif
 }

@@ -31,24 +31,9 @@
 class Handy : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool isTouch MEMBER m_isTouch CONSTANT FINAL)
-    Q_PROPERTY(bool hasMouse READ hasMouse NOTIFY hasMouseChanged)
-    Q_PROPERTY(bool hasKeyboard READ hasKeyboard NOTIFY hasKeyboardChanged)
-
-    Q_PROPERTY(bool isAndroid READ isAndroid CONSTANT FINAL)
-    Q_PROPERTY(bool isLinux READ isLinux CONSTANT FINAL)
-    Q_PROPERTY(bool isWindows READ isWindows CONSTANT FINAL)
-    Q_PROPERTY(bool isMac READ isMac CONSTANT FINAL)
-    Q_PROPERTY(bool isIOS READ isIOS CONSTANT FINAL)
-
-    Q_PROPERTY(bool singleClick MEMBER m_singleClick NOTIFY singleClickChanged)
 
 public:
     Handy(QObject *parent = nullptr);
-
-private:
-    bool m_isTouch = false;
-    bool m_singleClick = true;
 
 public slots:
     /*!
@@ -89,63 +74,6 @@ public slots:
      * @return
      */
     static bool copyToClipboard(const QVariantMap &value, const bool &cut = false);
-
-    // TODO move to Device.h the defs and implementation of device specifics
-    /**
-     * @brief isTouch
-     * @return
-     */
-    static bool isTouch();
-
-    /**
-     * @brief hasKeyboard
-     * @return
-     */
-    static bool hasKeyboard();
-
-    /**
-     * @brief hasMouse
-     * @return
-     */
-    static bool hasMouse();
-
-    /**
-     * @brief isAndroid
-     * @return
-     */
-    static bool isAndroid();
-
-    /**
-     * @brief isWindows
-     * @return
-     */
-    static bool isWindows();
-
-    /**
-     * @brief isMac
-     * @return
-     */
-    static bool isMac();
-
-    /**
-     * @brief isLinux
-     * @return
-     */
-    static bool isLinux();
-
-    /**
-     * @brief isIOS
-     * @return
-     */
-    static bool isIOS();
-
-signals:
-    /**
-     * @brief singleClickChanged
-     */
-    void singleClickChanged();
-    void hasKeyboardChanged();
-    void hasMouseChanged();
 };
 
 #endif // HANDY_H
