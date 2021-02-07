@@ -12,10 +12,9 @@ Item {
     property var iconSource
     property var imageSource
 
-    signal leftClicked
-    signal rightClicked
-    signal doubleClicked
-    signal pressed
+    signal clicked(var index)
+    signal rightClicked(var index)
+    signal doubleClicked(var index)
 
     property bool isCurrentItem : GridView.isCurrentItem
 
@@ -33,13 +32,12 @@ Item {
         hoverEnabled: true
 
         onClicked: {
-            if (mouse.button == Qt.LeftButton)
-                control.leftClicked()
-            else if (mouse.button == Qt.RightButton)
-                control.rightClicked()
+            if (mouse.button === Qt.LeftButton)
+                control.clicked(index)
+            else if (mouse.button === Qt.RightButton)
+                control.rightClicked(index)
         }
-
-        onDoubleClicked: control.doubleClicked()
+        onDoubleClicked: control.doubleClicked(index)
     }
 
     ColumnLayout {

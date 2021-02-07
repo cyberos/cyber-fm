@@ -14,19 +14,20 @@ Item {
     property var iconSource
     property var imageSource
 
+    property bool isSelected
+
     property color hoverColor: Qt.rgba(Meui.Theme.textColor.r,
                                        Meui.Theme.textColor.g,
                                        Meui.Theme.textColor.b, 0.1)
 
-    signal pressed()
-    signal leftClicked()
-    signal rightClicked()
-    signal doubleClicked()
+    signal clicked(var index)
+    signal rightClicked(var index)
+    signal doubleClicked(var index)
 
     Rectangle {
         anchors.fill: parent
         radius: Meui.Theme.bigRadius
-        // color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
+        color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
     }
 
     MouseArea {
@@ -36,16 +37,13 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.axis: Drag.XAndYAxis
 
-        onPressed: control.pressed()
-
         onClicked: {
             if (mouse.button === Qt.LeftButton)
-                control.leftClicked()
+                control.clicked(index)
             else if (mouse.button === Qt.RightButton)
-                control.rightClicked()
+                control.rightClicked(index)
         }
-
-        onDoubleClicked: control.doubleClicked()
+        onDoubleClicked: control.doubleClicked(index)
     }
 
     RowLayout {
@@ -88,12 +86,12 @@ Item {
         Label {
             text: label1
             Layout.fillWidth: true
-            // color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
         }
 
         Label {
             text: label2
-            // color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
         }
     }
 }

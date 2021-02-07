@@ -33,6 +33,11 @@ Item {
 
     Rectangle {
         anchors.fill: parent
+        anchors.topMargin: 0
+        anchors.leftMargin: Meui.Theme.smallRadius
+        anchors.rightMargin: Meui.Theme.smallRadius
+        anchors.bottomMargin: Meui.Theme.smallRadius
+        radius: Meui.Theme.smallRadius
         color: Meui.Theme.backgroundColor
     }
 
@@ -53,14 +58,26 @@ Item {
         ListView {
             id: _listViewBrowser
             anchors.fill: parent
-            clip: true
+            anchors.bottomMargin: Meui.Units.smallSpacing
             ScrollBar.vertical: ScrollBar {}
             currentIndex: control.currentIndex
             spacing: Meui.Units.largeSpacing
+            clip: true
 
+            topMargin: Meui.Units.smallSpacing
+            leftMargin: Meui.Units.largeSpacing
+            rightMargin: Meui.Units.largeSpacing
+            bottomMargin: Meui.Units.largeSpacing
+
+            signal itemClicked(var index)
+            signal itemRightClicked(var index)
+            signal itemDoubleClicked(var index)
             signal areaClicked(var mouse)
             signal areaRightClicked()
             signal keyPress(var event)
+
+            property alias currentFMList : _browserModel.list
+            property alias currentFMModel : _browserModel
 
             keyNavigationEnabled : true
             keyNavigationWraps : true
@@ -94,6 +111,13 @@ Item {
                 label2: model.modified
                 iconSource: model.icon
                 imageSource: model.thumbnail
+                isSelected: control.currentIndex === index
+                onClicked: {
+                    control.currentIndex = index
+                    _listViewBrowser.itemClicked(index)
+                }
+                onRightClicked: _listViewBrowser.itemRightClicked(index)
+                onDoubleClicked: _listViewBrowser.itemDoubleClicked(index)
             }
         }
     }
@@ -104,12 +128,18 @@ Item {
         GridView {
             id: _gridViewBrowser
             anchors.fill: parent
-            clip: true
+            anchors.topMargin: Meui.Units.smallSpacing
+            anchors.leftMargin: Meui.Units.largeSpacing
+            anchors.bottomMargin: Meui.Units.largeSpacing
             ScrollBar.vertical: ScrollBar {}
             currentIndex: control.currentIndex
             cellHeight: Math.floor(96 * 1.5)
             cellWidth: Math.floor(96 * 1.5)
+            clip: true
 
+            signal itemClicked(var index)
+            signal itemRightClicked(var index)
+            signal itemDoubleClicked(var index)
             signal areaClicked(var mouse)
             signal areaRightClicked()
             signal keyPress(var event)
@@ -151,20 +181,12 @@ Item {
                 iconSource: model.icon
                 imageSource: model.thumbnail
 
-                onLeftClicked: {
+                onClicked: {
                     control.currentIndex = index
+                    _gridViewBrowser.itemClicked(index)
                 }
-
-                onRightClicked: {
-                    if (control.currentFMList.pathType !== FMList.TRASH_PATH &&
-                        control.currentFMList.pathType !== FMList.REMOTE_PATH) {
-                        fileMenu.show(index)
-                    }
-                }
-
-                onDoubleClicked: {
-                    openItem(currentIndex)
-                }
+                onRightClicked: _gridViewBrowser.itemRightClicked(index)
+                onDoubleClicked: _gridViewBrowser.itemDoubleClicked(index)
             }
         }
     }
@@ -184,6 +206,11 @@ Item {
                 control.openFolder(path)
             else
                 control.openFile(path)
+        }
+
+        onCutClicked: {
+            if (item)
+                control.cut([item.path])
         }
 
         onCopyClicked: {
@@ -211,6 +238,19 @@ Item {
 
         function onAreaRightClicked(mouse) {
             browserMenu.show(control)
+        }
+
+        function onItemRightClicked(index) {
+            if (control.currentFMList.pathType !== FMList.TRASH_PATH &&
+                control.currentFMList.pathType !== FMList.REMOTE_PATH) {
+                fileMenu.show(index)
+            }
+
+            control.currentView.forceActiveFocus()
+        }
+
+        function onItemDoubleClicked(index) {
+            control.openItem(index)
         }
     }
 
