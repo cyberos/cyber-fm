@@ -92,6 +92,7 @@ Meui.Window {
 
                 SideBar {
                     Layout.fillHeight: true
+                    currentUrl: _browserView.path
                     onPlaceClicked: {
                         _browserView.openFolder(path)
                     }

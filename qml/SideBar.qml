@@ -8,6 +8,8 @@ Item {
     id: control
     implicitWidth: 201
 
+    property url currentUrl
+
     signal placeClicked(string path)
     signal itemClicked(int index)
 
@@ -38,7 +40,8 @@ Item {
                         id: placesList
                         groups: [
                             FMList.PLACES_PATH,
-                            FMList.DRIVES_PATH]
+                            // FMList.DRIVES_PATH
+                        ]
                     }
                 }
 
@@ -49,6 +52,8 @@ Item {
                     id: listItem
                     text: model.label
                     iconName: "image://icontheme/" + model.icon
+                    checked: control.currentUrl.toString() === model.path
+
                     onClicked: {
                         placesView.currentIndex = index
                         control.itemClicked(index)

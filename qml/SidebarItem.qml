@@ -10,10 +10,20 @@ Item {
     width: parent ? parent.width : undefined
     implicitHeight: 48
 
-    property bool highlighted: false
+    property bool checked: false
     property var iconName
     property var text
     signal clicked
+
+    Rectangle {
+        id: rect
+        anchors.fill: parent
+        radius: Meui.Theme.bigRadius
+        color: item.checked ? Meui.Theme.highlightColor
+                           : mouseArea.containsMouse ? Qt.rgba(Meui.Theme.textColor.r,
+                                                               Meui.Theme.textColor.g,
+                                                               Meui.Theme.textColor.b, 0.1) : "transparent"
+    }
 
     MouseArea {
         id: mouseArea
@@ -21,16 +31,6 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
         onClicked: item.clicked()
-    }
-
-    Rectangle {
-        id: rect
-        anchors.fill: parent
-        radius: Meui.Theme.bigRadius
-        color: highlighted ? Meui.Theme.highlightColor
-                           : mouseArea.containsMouse ? Qt.rgba(Meui.Theme.textColor.r,
-                                                               Meui.Theme.textColor.g,
-                                                               Meui.Theme.textColor.b, 0.1) : "transparent"
     }
 
     RowLayout {
@@ -58,7 +58,7 @@ Item {
         Label {
             id: itemTitle
             text: item.text
-            color: highlighted ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            color: item.checked ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
             elide: Text.ElideRight
 
             Layout.alignment: Qt.AlignVCenter

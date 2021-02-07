@@ -111,7 +111,6 @@ Item {
                 label2: model.modified
                 iconSource: model.icon
                 imageSource: model.thumbnail
-                isSelected: control.currentIndex === index
                 onClicked: {
                     control.currentIndex = index
                     _listViewBrowser.itemClicked(index)

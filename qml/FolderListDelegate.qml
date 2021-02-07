@@ -14,7 +14,7 @@ Item {
     property var iconSource
     property var imageSource
 
-    property bool isSelected
+    property bool isSelected: ListView.isCurrentItem
 
     property color hoverColor: Qt.rgba(Meui.Theme.textColor.r,
                                        Meui.Theme.textColor.g,
@@ -25,6 +25,7 @@ Item {
     signal doubleClicked(var index)
 
     Rectangle {
+        z: -1
         anchors.fill: parent
         radius: Meui.Theme.bigRadius
         color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
@@ -67,6 +68,7 @@ Item {
                 source: "image://icontheme/" + control.iconSource
                 visible: !image.visible
                 asynchronous: true
+
             }
 
             Image {
@@ -80,6 +82,7 @@ Item {
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true
                 smooth: false
+
             }
         }
 
