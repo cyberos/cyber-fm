@@ -25,7 +25,7 @@
         <file>qml/FolderIconView.qml</file>
         <file>qml/FolderIconDelegate.qml</file>
         <file>qml/BrowserView.qml</file>
-        <file>qml/FileMenu.qml</file>
+        <file>qml/ItemMenu.qml</file>
         <file>qml/BrowserMenu.qml</file>
     </qresource>
 </RCC>

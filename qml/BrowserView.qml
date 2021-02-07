@@ -39,6 +39,13 @@ Item {
         anchors.bottomMargin: Meui.Theme.smallRadius
         radius: Meui.Theme.smallRadius
         color: Meui.Theme.backgroundColor
+
+        Label {
+            anchors.centerIn: parent
+            text: qsTr("No Files")
+            font.pointSize: 20
+            visible: currentView && currentView.count === 0
+        }
     }
 
     Loader {
@@ -192,10 +199,12 @@ Item {
 
     BrowserMenu {
         id: browserMenu
+        currentList: control.currentFMList
+        onEmptyTrashClicked: FM.emptyTrash()
     }
 
-    FileMenu {
-        id: fileMenu
+    ItemMenu {
+        id: itemMenu
         modal: true
 
         onOpenClicked: {
@@ -247,7 +256,7 @@ Item {
         function onItemRightClicked(index) {
             if (control.currentFMList.pathType !== FMList.TRASH_PATH &&
                 control.currentFMList.pathType !== FMList.REMOTE_PATH) {
-                fileMenu.show(index)
+                itemMenu.show(index)
             }
 
             control.currentView.forceActiveFocus()
