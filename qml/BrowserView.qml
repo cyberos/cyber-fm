@@ -92,6 +92,10 @@ Item {
                 }
                 onRightClicked: _listViewBrowser.itemRightClicked(index)
                 onDoubleClicked: _listViewBrowser.itemDoubleClicked(index)
+                onContentDropped: {
+                    var urls = drop.urls.join(",").split(",")
+                    FM.cut(drop.urls, model.path)
+                }
             }
         }
     }
@@ -132,6 +136,10 @@ Item {
                 }
                 onRightClicked: _gridViewBrowser.itemRightClicked(index)
                 onDoubleClicked: _gridViewBrowser.itemDoubleClicked(index)
+                onContentDropped: {
+                    var urls = drop.urls.join(",").split(",")
+                    FM.cut(drop.urls, model.path)
+                }
             }
         }
     }

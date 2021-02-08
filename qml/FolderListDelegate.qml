@@ -23,17 +23,31 @@ Item {
     signal clicked(var index)
     signal rightClicked(var index)
     signal doubleClicked(var index)
+    signal contentDropped(var drop)
+
+    Drag.active: _mouseArea.drag.active
+    Drag.dragType: Drag.Automatic
+    Drag.supportedActions: Qt.MoveAction
+    Drag.keys: ["text/uri-list"]
+    Drag.mimeData: { "text/uri-list": model.path }
 
     Rectangle {
         z: -1
         anchors.fill: parent
         radius: Meui.Theme.bigRadius
         color: isSelected ? Meui.Theme.highlightColor : control.hoverColor
-        visible: isSelected || itemMouseArea.containsMouse
+        visible: isSelected || _mouseArea.containsMouse
+    }
+
+    DropArea {
+        id: _dropArea
+        anchors.fill: parent
+        enabled: model.isdir
+        onDropped: control.contentDropped(drop)
     }
 
     MouseArea {
-        id: itemMouseArea
+        id: _mouseArea
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -45,7 +59,19 @@ Item {
             else if (mouse.button === Qt.RightButton)
                 control.rightClicked(index)
         }
+
         onDoubleClicked: control.doubleClicked(index)
+
+        onPressed: {
+            if (mouse.source !== Qt.MouseEventSynthesizedByQt) {
+                drag.target = _mouseArea
+                control.grabToImage(function(result) {
+                    control.Drag.imageSource = result.url
+                })
+            }
+        }
+
+        onReleased: drag.target = null
     }
 
     RowLayout {

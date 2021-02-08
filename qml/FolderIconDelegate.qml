@@ -12,16 +12,32 @@ Item {
     property var iconSource
     property var imageSource
 
-    signal clicked(var index)
-    signal rightClicked(var index)
-    signal doubleClicked(var index)
-
     property bool isCurrentItem : GridView.isCurrentItem
 
     property color hoveredColor: Qt.rgba(Meui.Theme.textColor.r,
                                          Meui.Theme.textColor.g,
                                          Meui.Theme.textColor.b,
                                          0.1)
+
+    signal clicked(var index)
+    signal rightClicked(var index)
+    signal doubleClicked(var index)
+    signal contentDropped(var drop)
+
+    Drag.active: mouseArea.drag.active
+    Drag.dragType: Drag.Automatic
+    Drag.supportedActions: Qt.MoveAction
+    Drag.keys: ["text/uri-list"]
+    Drag.mimeData: { "text/uri-list": model.path }
+    Drag.hotSpot.x: control.width / 2
+    Drag.hotSpot.y: control.height / 2
+
+    DropArea {
+        id: _dropArea
+        anchors.fill: parent
+        enabled: model.isdir
+        onDropped: control.contentDropped(drop)
+    }
 
     MouseArea {
         id: mouseArea
@@ -37,7 +53,19 @@ Item {
             else if (mouse.button === Qt.RightButton)
                 control.rightClicked(index)
         }
+
         onDoubleClicked: control.doubleClicked(index)
+
+        onPressed: {
+            if (mouse.source !== Qt.MouseEventSynthesizedByQt) {
+                drag.target = mouseArea
+                control.grabToImage(function(result) {
+                    control.Drag.imageSource = result.url
+                })
+            }
+        }
+
+        onReleased: drag.target = null
     }
 
     ColumnLayout {
