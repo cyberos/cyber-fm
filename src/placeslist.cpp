@@ -136,7 +136,6 @@ void PlacesList::setList()
     if (this->groups.isEmpty())
         return;
 
-    qDebug() << "Setting PlacesList model" << groups;
     emit this->preListChanged();
 
     this->list.clear();

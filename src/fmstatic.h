@@ -145,6 +145,8 @@ public slots:
      */
     static QString formatDate(const QString &dateStr, const QString &format = QString("dd/MM/yyyy"), const QString &initFormat = QString());
 
+    static QString systemFormatDate(const QString &dateStr);
+
     /**
      * @brief homePath
      * The default home path in different systems

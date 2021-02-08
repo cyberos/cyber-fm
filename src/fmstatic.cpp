@@ -137,6 +137,12 @@ QString FMStatic::formatDate(const QString &dateStr, const QString &format, cons
         return QDateTime::fromString(dateStr, initFormat).toString(format);
 }
 
+QString FMStatic::systemFormatDate(const QString &dateStr)
+{
+    return QLocale::system().toString(QDateTime::fromString(dateStr, Qt::TextDate),
+                                      QLocale::ShortFormat);
+}
+
 QString FMStatic::formatTime(const qint64 &value)
 {
     QString tStr;

@@ -147,16 +147,10 @@ void FM::getPathContent(const QUrl &path, const bool &hidden, const bool &onlyDi
 
 FMH::MODEL_LIST FM::getAppsPath()
 {
-#if defined Q_OS_ANDROID || defined Q_OS_WIN32 || defined Q_OS_MACOS || defined Q_OS_IOS // for android, windows and mac use this for now
-
-    return FMH::MODEL_LIST();
-#else
-
     return FMH::MODEL_LIST {FMH::MODEL {{FMH::MODEL_KEY::ICON, "system-run"},
                                         {FMH::MODEL_KEY::LABEL, FMH::PATHTYPE_LABEL[FMH::PATHTYPE_KEY::APPS_PATH]},
                                         {FMH::MODEL_KEY::PATH, FMH::PATHTYPE_URI[FMH::PATHTYPE_KEY::APPS_PATH]},
                                         {FMH::MODEL_KEY::TYPE, FMH::PATHTYPE_LABEL[FMH::PATHTYPE_KEY::PLACES_PATH]}}};
-#endif
 }
 
 bool FM::getCloudServerContent(const QUrl &path, const QStringList &filters, const int &depth)

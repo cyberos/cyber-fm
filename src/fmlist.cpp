@@ -297,6 +297,7 @@ QUrl FMList::getPath() const
 void FMList::setPath(const QUrl &path)
 {
     QUrl path_ = QUrl::fromUserInput(path.toString().trimmed());
+
     if (this->path == path_)
         return;
 

@@ -9,14 +9,14 @@ Item {
 
     property FMList currentFMList
     property BaseModel currentFMModel
-    property url path: "file:///home/rekols"
+    property url path: FM.homePath()
 
     property int currentIndex : -1
     property alias currentView: viewLoader.item
 
     onPathChanged: {
         control.currentIndex = -1
-        control.forceActiveFocus()
+        control.currentView.forceActiveFocus()
     }
 
     Binding on currentIndex {
@@ -115,7 +115,7 @@ Item {
 
             delegate: FolderListDelegate {
                 label1: model.label
-                label2: model.modified
+                label2: FM.systemFormatDate(model.modified)
                 iconSource: model.icon
                 imageSource: model.thumbnail
                 onClicked: {
@@ -237,6 +237,10 @@ Item {
         }
     }
 
+    Component.onCompleted: {
+        control.currentView.forceActiveFocus()
+    }
+
     Connections {
         enabled: control.currentView
         target: control.currentView
@@ -246,11 +250,26 @@ Item {
             const index = control.currentIndex
             const item = control.currentFMModel.get(index)
 
-            console.log(event.key)
+            if (event.key === Qt.Key_Return)
+                control.openItem(index)
+
+            if ((event.key === Qt.Key_V) && (event.modifiers & Qt.ControlModifier))
+                control.paste()
+
+            if (event.key === Qt.Key_Backspace)
+                control.goUp()
+        }
+
+        function onAreaClicked() {
+            control.currentView.forceActiveFocus()
         }
 
         function onAreaRightClicked(mouse) {
             browserMenu.show(control)
+        }
+
+        function onItemClicked(index) {
+            control.currentView.forceActiveFocus()
         }
 
         function onItemRightClicked(index) {
@@ -267,11 +286,17 @@ Item {
         }
     }
 
+    // Function region
+
+    function addToSelection(item) {
+
+    }
+
     function setCurrentFMList() {
         if (control.currentView) {
             control.currentFMList = currentView.currentFMList
             control.currentFMModel = currentView.currentFMModel
-            currentView.forceActiveFocus()
+            control.currentView.forceActiveFocus()
         }
     }
 
@@ -351,5 +376,4 @@ Item {
     function goUp() {
         openFolder(control.currentFMList.parentPath)
     }
-
 }
