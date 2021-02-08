@@ -14,6 +14,8 @@ Item {
     property int currentIndex : -1
     property alias currentView: viewLoader.item
 
+    signal openPathBar
+
     onPathChanged: {
         control.currentIndex = -1
         control.currentView.forceActiveFocus()
@@ -258,6 +260,9 @@ Item {
 
             if (event.key === Qt.Key_Backspace)
                 control.goUp()
+
+            if (event.key === Qt.Key_L && event.modifiers & Qt.ControlModifier)
+                control.openPathBar()
         }
 
         function onAreaClicked() {
@@ -319,6 +324,7 @@ Item {
             return;
 
         control.path = path
+        control.currentView.forceActiveFocus()
     }
 
     function copy(urls) {

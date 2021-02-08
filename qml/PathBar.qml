@@ -83,7 +83,7 @@ Item {
 
             onClicked: {
                 if (!addressEdit.visible) {
-                    showTextField()
+                    openEditor()
                 }
             }
         }
@@ -102,7 +102,7 @@ Item {
 
         onAccepted: {
             control.pathChanged(text)
-            hideTextField()
+            closeEditor()
         }
 
         Keys.onPressed: {
@@ -112,17 +112,17 @@ Item {
 
         onActiveFocusChanged: {
             if (!activeFocus) {
-                hideTextField()
+                closeEditor()
             }
         }
     }
 
-    function hideTextField() {
+    function closeEditor() {
         addressEdit.visible = false
         listView.visible = true
     }
 
-    function showTextField() {
+    function openEditor() {
         addressEdit.visible = true
         addressEdit.forceActiveFocus()
         addressEdit.selectAll()

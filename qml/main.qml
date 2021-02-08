@@ -93,15 +93,14 @@ Meui.Window {
                 SideBar {
                     Layout.fillHeight: true
                     currentUrl: _browserView.path
-                    onPlaceClicked: {
-                        _browserView.openFolder(path)
-                    }
+                    onPlaceClicked: _browserView.openFolder(path)
                 }
 
                 BrowserView {
                     id: _browserView
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    onOpenPathBar: pathBar.openEditor()
                 }
             }
         }
