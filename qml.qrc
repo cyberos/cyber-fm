@@ -22,7 +22,7 @@
         <file>images/folder-video.svg</file>
         <file>images/folder-document.svg</file>
         <file>qml/GlobalSettings.qml</file>
-        <file>qml/FolderIconView.qml</file>
+        <file>qml/FolderGridView.qml</file>
         <file>qml/FolderIconDelegate.qml</file>
         <file>qml/BrowserView.qml</file>
         <file>qml/ItemMenu.qml</file>

@@ -64,48 +64,14 @@ Item {
     Component {
         id: listViewBrowser
 
-        ListView {
+        FolderListView {
             id: _listViewBrowser
             anchors.fill: parent
             anchors.bottomMargin: Meui.Units.smallSpacing
-            ScrollBar.vertical: ScrollBar {}
             currentIndex: control.currentIndex
-            spacing: Meui.Units.largeSpacing
-            clip: true
-
-            topMargin: Meui.Units.smallSpacing
-            leftMargin: Meui.Units.largeSpacing
-            rightMargin: Meui.Units.largeSpacing
-            bottomMargin: Meui.Units.largeSpacing
-
-            signal itemClicked(var index)
-            signal itemRightClicked(var index)
-            signal itemDoubleClicked(var index)
-            signal areaClicked(var mouse)
-            signal areaRightClicked()
-            signal keyPress(var event)
 
             property alias currentFMList : _browserModel.list
             property alias currentFMModel : _browserModel
-
-            keyNavigationEnabled : true
-            keyNavigationWraps : true
-            Keys.onPressed: _listViewBrowser.keyPress(event)
-
-            MouseArea {
-                anchors.fill: parent
-                z: -1
-                propagateComposedEvents: true
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                onClicked: {
-                    _listViewBrowser.areaClicked(mouse)
-                    _listViewBrowser.forceActiveFocus()
-
-                    if (mouse.button === Qt.RightButton)
-                        _gridViewBrowser.areaRightClicked()
-                }
-            }
 
             model: BaseModel {
                 id: _browserModel
@@ -133,43 +99,14 @@ Item {
     Component {
         id: gridViewBrowser
 
-        GridView {
+        FolderGridView {
             id: _gridViewBrowser
             anchors.fill: parent
             anchors.topMargin: Meui.Units.smallSpacing
             anchors.leftMargin: Meui.Units.largeSpacing
+            anchors.rightMargin: Meui.Units.largeSpacing
             anchors.bottomMargin: Meui.Units.largeSpacing
-            ScrollBar.vertical: ScrollBar {}
             currentIndex: control.currentIndex
-            cellHeight: Math.floor(96 * 1.5)
-            cellWidth: Math.floor(96 * 1.5)
-            clip: true
-
-            signal itemClicked(var index)
-            signal itemRightClicked(var index)
-            signal itemDoubleClicked(var index)
-            signal areaClicked(var mouse)
-            signal areaRightClicked()
-            signal keyPress(var event)
-
-            keyNavigationEnabled : true
-            keyNavigationWraps : true
-            Keys.onPressed: _gridViewBrowser.keyPress(event)
-
-            MouseArea {
-                anchors.fill: parent
-                z: -1
-                propagateComposedEvents: true
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                onClicked: {
-                    _gridViewBrowser.areaClicked(mouse)
-                    _gridViewBrowser.forceActiveFocus()
-
-                    if (mouse.button === Qt.RightButton)
-                        _gridViewBrowser.areaRightClicked()
-                }
-            }
 
             property alias currentFMList : _browserModel.list
             property alias currentFMModel : _browserModel

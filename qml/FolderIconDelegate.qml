@@ -46,8 +46,10 @@ Item {
 
         Item {
             id: iconItem
-            Layout.fillWidth: true
             Layout.preferredHeight: parent.height * 0.6
+            Layout.leftMargin: Meui.Units.largeSpacing
+            Layout.rightMargin: Meui.Units.largeSpacing
+            Layout.fillWidth: true
 
             Image {
                 id: icon
@@ -130,7 +132,6 @@ Item {
             Label {
                 id: _label
                 anchors.fill: parent
-                anchors.margins: Meui.Units.smallSpacing
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 elide: Qt.ElideRight

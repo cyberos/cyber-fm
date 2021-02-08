@@ -1,76 +1,48 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.4
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import MeuiKit 1.0 as Meui
 
 GridView {
     id: control
 
-    property int itemSize: Math.floor(96 * 1.5)
+    property int itemSize: Math.floor(80 * 2)
     property bool enableLassoSelection: true
+    property int size_
 
-    signal leftClicked()
-    signal rightClicked()
+    signal itemClicked(var index)
+    signal itemRightClicked(var index)
     signal itemDoubleClicked(var index)
-    signal itemPressed()
-
-    clip: true
-    focus: true
-    cellHeight: itemSize + Meui.Units.largeSpacing
-    cellWidth: itemSize + Meui.Units.largeSpacing
-
-    currentIndex: -1
+    signal areaClicked(var mouse)
+    signal areaRightClicked()
+    signal keyPress(var event)
 
     ScrollBar.vertical: ScrollBar {}
 
-    property int size_
+    keyNavigationEnabled : true
+    keyNavigationWraps : true
+    Keys.onPressed: control.keyPress(event)
+
+    cellHeight: itemSize
+    cellWidth: itemSize
+    clip: true
 
     Component.onCompleted: {
         control.size_ = control.itemSize
     }
 
-    onItemSizeChanged: {
-        control.adaptGrid()
-    }
-
-    onWidthChanged: {
-        control.adaptGrid()
-    }
-
-    onHeightChanged: {
-        control.adaptGrid()
-    }
+    onItemSizeChanged: control.adaptGrid()
+    onWidthChanged: control.adaptGrid()
+    onCountChanged: control.adaptGrid()
 
     function adaptGrid() {
         var fullWidth = control.width
-        var realAmount = parseInt(fullWidth / control.size_, 10)
-        var amount = parseInt(fullWidth / control.cellWidth, 10)
+        var realAmount = parseInt(fullWidth / control.size_, 0)
+        var amount = parseInt(fullWidth / control.cellWidth, 0)
 
-        var leftSpace = parseInt(fullWidth - (realAmount * control.size_), 10)
-        var size = Math.min(amount, realAmount) >= control.count ? Math.max(control.cellWidth, control.itemSize) : parseInt((control.size_) + (parseInt(leftSpace/realAmount, 10)), 10)
+        var leftSpace = parseInt(fullWidth - (realAmount * control.size_), 0)
+        var size = Math.min(amount, realAmount) >= control.count ? Math.max(control.cellWidth, control.itemSize) : parseInt((control.size_) + (parseInt(leftSpace/realAmount, 0)), 0)
 
         control.cellWidth = size
-    }
-
-    delegate: FolderIconDelegate {
-        width: control.cellWidth
-        height: control.cellHeight
-
-        onPressed: control.itemPressed()
-        onDoubleClicked: control.itemDoubleClicked(index)
-
-        onLeftClicked: {
-            selection.clear()
-            selection.toggleIndex(index)
-        }
-
-        onRightClicked: {
-            if (!isSelected)
-                selection.clear()
-
-            selection.setIndex(index, true)
-
-            folderItemMenu.popup()
-        }
     }
 
     MouseArea {
@@ -82,10 +54,10 @@ GridView {
         acceptedButtons:  Qt.RightButton | Qt.LeftButton
 
         onClicked: {
-            if (mouse.button == Qt.LeftButton)
-                control.leftClicked()
-            else if (mouse.button == Qt.RightButton)
-                control.rightClicked()
+            control.areaClicked(mouse)
+
+            if (mouse.button === Qt.RightButton)
+                control.areaRightClicked()
         }
 
         onPressed: {
@@ -93,7 +65,7 @@ GridView {
 
             if (mouse.source === Qt.MouseEventNotSynthesized) {
                 if (control.enableLassoSelection && mouse.button === Qt.LeftButton) {
-                    selection.clear()
+                    // selection.clear()
                     selectLayer.visible = true;
                     selectLayer.x = mouseX;
                     selectLayer.y = mouseY;
@@ -139,10 +111,10 @@ GridView {
                     }
                 }
 
-                selection.clear()
-                for (var j in lassoIndexes) {
-                    selection.setIndex(lassoIndexes[j], true)
-                }
+                //selection.clear()
+                //for (var j in lassoIndexes) {
+                //    selection.setIndex(lassoIndexes[j], true)
+                //}
             }
         }
 

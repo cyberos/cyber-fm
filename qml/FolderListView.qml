@@ -1,6 +1,6 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 import MeuiKit 1.0 as Meui
 import Cyber.FileManager 1.0
 
@@ -9,23 +9,24 @@ ListView {
 
     property bool enableLassoSelection: true
 
-    signal leftClicked()
-    signal rightClicked()
+    signal itemClicked(var index)
+    signal itemRightClicked(var index)
     signal itemDoubleClicked(var index)
-    signal itemPressed()
+    signal areaClicked(var mouse)
+    signal areaRightClicked()
+    signal keyPress(var event)
 
-    Layout.fillHeight: true
-    Layout.fillWidth: true
-    leftMargin: Meui.Units.largeSpacing
-    rightMargin: Meui.Units.largeSpacing
-    topMargin: Meui.Units.smallSpacing
-    bottomMargin: Meui.Units.smallSpacing
-    spacing: Meui.Units.largeSpacing
-    clip: true
-
-    model: folderModel
+    keyNavigationEnabled : true
+    keyNavigationWraps : true
+    Keys.onPressed: control.keyPress(event)
 
     ScrollBar.vertical: ScrollBar {}
+    spacing: Meui.Units.largeSpacing
+    topMargin: Meui.Units.smallSpacing
+    leftMargin: Meui.Units.largeSpacing
+    rightMargin: Meui.Units.largeSpacing
+    bottomMargin: Meui.Units.largeSpacing
+    clip: true
 
     Rectangle {
         id: selectLayer
@@ -63,20 +64,20 @@ ListView {
         anchors.fill: parent
         propagateComposedEvents: true
         preventStealing: true
-        acceptedButtons:  Qt.RightButton | Qt.LeftButton
+        acceptedButtons: Qt.RightButton | Qt.LeftButton
 
         onClicked: {
-            if (mouse.button == Qt.LeftButton)
-                control.leftClicked()
-            else if (mouse.button == Qt.RightButton)
-                control.rightClicked()
+            control.areaClicked(mouse)
+
+            if (mouse.button === Qt.RightButton)
+                control.areaRightClicked()
         }
 
         onPressed: {
             control.forceActiveFocus()
 
             if (mouse.source === Qt.MouseEventNotSynthesized && mouse.button === Qt.LeftButton) {
-                selection.clear()
+                // selection.clear()
 
                 selectLayer.visible = true;
                 selectLayer.x = mouseX;
@@ -119,10 +120,10 @@ ListView {
                         lassoIndexes.push(index)
                 }
 
-                selection.clear()
-                for (var i = 0; i < lassoIndexes.length; ++i) {
-                    selection.setIndex(lassoIndexes[i], true)
-                }
+                // selection.clear()
+                // for (var i = 0; i < lassoIndexes.length; ++i) {
+                //     selection.setIndex(lassoIndexes[i], true)
+                // }
             }
         }
 
@@ -148,25 +149,6 @@ ListView {
             }
 
             selectLayer.reset()
-        }
-    }
-
-    delegate: FolderListDelegate {
-        onPressed: control.itemPressed()
-        onDoubleClicked: control.itemDoubleClicked(index)
-
-        onLeftClicked: {
-            selection.clear()
-            selection.toggleIndex(index)
-        }
-
-        onRightClicked: {
-            if (!isSelected)
-                selection.clear()
-
-            selection.setIndex(index, true)
-
-            folderItemMenu.popup()
         }
     }
 }

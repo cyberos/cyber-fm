@@ -28,7 +28,8 @@ Item {
         z: -1
         anchors.fill: parent
         radius: Meui.Theme.bigRadius
-        color: isSelected ? Meui.Theme.highlightColor : itemMouseArea.containsMouse ? control.hoverColor : "transparent"
+        color: isSelected ? Meui.Theme.highlightColor : control.hoverColor
+        visible: isSelected || itemMouseArea.containsMouse
     }
 
     MouseArea {
