@@ -1,6 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.15
+
 import Cyber.FileManager 1.0
 import MeuiKit 1.0 as Meui
 
@@ -35,8 +37,11 @@ Item {
         z: -1
         anchors.fill: parent
         radius: Meui.Theme.bigRadius
-        color: isSelected ? Meui.Theme.highlightColor : control.hoverColor
-        visible: isSelected || _mouseArea.containsMouse
+        color: isSelected ? Meui.Theme.highlightColor :
+            _mouseArea.containsMouse ? control.hoverColor : "transparent"
+        Behavior on color {
+            ColorAnimation { duration: 125 }
+        }
     }
 
     DropArea {

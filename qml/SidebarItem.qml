@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.1
-import QtGraphicalEffects 1.0
+import QtGraphicalEffects 1.15
 
 import MeuiKit 1.0 as Meui
 
@@ -23,6 +23,9 @@ Item {
                            : mouseArea.containsMouse ? Qt.rgba(Meui.Theme.textColor.r,
                                                                Meui.Theme.textColor.g,
                                                                Meui.Theme.textColor.b, 0.1) : "transparent"
+        Behavior on color {
+            ColorAnimation { duration: 125 }
+        }
     }
 
     MouseArea {

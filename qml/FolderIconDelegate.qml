@@ -149,12 +149,15 @@ Item {
             Layout.preferredHeight: Math.min(_label.implicitHeight, height)
 
             Rectangle {
-                width: Math.min(_label.implicitWidth + Meui.Units.smallSpacing, parent.width)
-                height: Math.min(_label.implicitHeight + Meui.Units.smallSpacing, parent.height)
+                width: Math.min(_label.implicitWidth + Meui.Units.largeSpacing, parent.width)
+                height: Math.min(_label.implicitHeight + Meui.Units.largeSpacing, parent.height)
                 anchors.centerIn: parent
-                color: isCurrentItem ? Meui.Theme.highlightColor : Meui.Theme.secondBackgroundColor
+                color: isCurrentItem ? Meui.Theme.highlightColor :
+                    mouseArea.containsMouse ? Meui.Theme.secondBackgroundColor : "transparent"
+                Behavior on color {
+                    ColorAnimation { duration: 125 }
+                }
                 radius: Meui.Theme.smallRadius
-                visible: isCurrentItem | mouseArea.containsMouse
             }
 
             Label {
