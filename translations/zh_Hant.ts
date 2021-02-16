@@ -6,17 +6,17 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>新文件夾</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>貼</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>清空垃圾桶</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation type="unfinished"></translation>
+        <translation>沒有任何文件</translation>
     </message>
 </context>
 <context>
@@ -32,22 +32,22 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>開啟</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>複製</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>剪下</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
