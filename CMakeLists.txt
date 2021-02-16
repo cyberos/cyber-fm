@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Core Quick Concurrent DBus REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Concurrent DBus LinguistTools REQUIRED)
 find_package(KF5KIO)
 find_package(MeuiKit REQUIRED)
 
@@ -28,6 +28,11 @@ add_executable(cyber-fm
     src/mauimodel.cpp
     qml.qrc
 )
+
+file(GLOB TS_FILES translations/*.ts)
+qt5_create_translation(QM_FILES ${TS_FILES})
+add_custom_target(translations DEPENDS ${QM_FILES} SOURCES ${TS_FILES})
+add_dependencies(${PROJECT_NAME} translations)
 
 target_link_libraries(cyber-fm
     PRIVATE
@@ -46,3 +51,4 @@ target_link_libraries(cyber-fm
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION /usr/bin)
 install(FILES cyber-fm.desktop DESTINATION "/usr/share/applications")
+install(FILES ${QM_FILES} DESTINATION /usr/share/cyber-fm/translations)

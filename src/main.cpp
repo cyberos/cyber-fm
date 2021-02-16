@@ -17,8 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QApplication>
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QTranslator>
+#include <QLocale>
 
 #include "fmlist.h"
 #include "fm.h"
@@ -32,7 +34,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
     app.setOrganizationName("cyberos");
 
     const char *uri = "Cyber.FileManager";
@@ -53,6 +55,18 @@ int main(int argc, char *argv[])
         Q_UNUSED(scriptEngine)
         return new Handy;
     });
+
+    // Translations
+    QLocale locale;
+    QString qmFilePath = QString("%1/%2.qm").arg("/usr/share/cyber-fm/translations/").arg(locale.name());
+    if (QFile::exists(qmFilePath)) {
+        QTranslator *translator = new QTranslator(app.instance());
+        if (translator->load(qmFilePath)) {
+            app.installTranslator(translator);
+        } else {
+            translator->deleteLater();
+        }
+    }
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
