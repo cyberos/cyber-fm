@@ -46,7 +46,7 @@ Item {
             anchors.centerIn: parent
             text: qsTr("No Files")
             font.pointSize: 20
-            visible: currentView && currentView.count === 0
+            visible: currentView && currentFMList.status.empty
         }
     }
 

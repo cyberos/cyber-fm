@@ -23,9 +23,6 @@ Item {
                            : mouseArea.containsMouse ? Qt.rgba(Meui.Theme.textColor.r,
                                                                Meui.Theme.textColor.g,
                                                                Meui.Theme.textColor.b, 0.1) : "transparent"
-        Behavior on color {
-            ColorAnimation { duration: 125 }
-        }
     }
 
     MouseArea {
