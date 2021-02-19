@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/main.qml" line="17"/>
         <source>File Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>檔案管理員</translation>
     </message>
 </context>
 </TS>
