@@ -32,12 +32,12 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aperto</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copia</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
@@ -47,7 +47,7 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eliminare</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
