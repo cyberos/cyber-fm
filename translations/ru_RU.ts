@@ -57,7 +57,7 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation>Установить как обои рабочего стола</translation>
+        <translation>Установить как обои</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
