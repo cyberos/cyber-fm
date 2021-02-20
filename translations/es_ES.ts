@@ -6,17 +6,17 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Carpeta nueva</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaciar papelera</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay archivos</translation>
     </message>
 </context>
 <context>
