@@ -6,7 +6,7 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation>Nova pasta</translation>
+        <translation>Nova Pasta</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
@@ -16,7 +16,7 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation>Esvaziar lixeira</translation>
+        <translation>Esvaziar Lixeira</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation>Sem arquivos</translation>
+        <translation>Nenhum arquivo</translation>
     </message>
 </context>
 <context>
@@ -47,7 +47,7 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation>Remover</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
@@ -57,7 +57,7 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation>Definir como Papel de Parede</translation>
+        <translation>Definir como plano de fundo</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
