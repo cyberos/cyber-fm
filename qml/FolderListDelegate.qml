@@ -39,6 +39,12 @@ Item {
         radius: Meui.Theme.bigRadius
         color: isSelected ? Meui.Theme.highlightColor :
             _mouseArea.containsMouse ? control.hoverColor : "transparent"
+        Behavior on color {
+            ColorAnimation {
+                duration: 125
+                easing.type: Easing.InOutCubic
+            }
+        }
     }
 
     DropArea {
@@ -119,11 +125,23 @@ Item {
             text: label1
             Layout.fillWidth: true
             color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            Behavior on color {
+                ColorAnimation {
+                    duration: 125
+                    easing.type: Easing.InOutCubic
+                }
+            }
         }
 
         Label {
             text: label2
-            color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            color: isSelected ? Meui.Theme.highlightedTextColor : Meui.Theme.disabledTextColor
+            Behavior on color {
+                ColorAnimation {
+                    duration: 125
+                    easing.type: Easing.InOutCubic
+                }
+            }
         }
     }
 }

@@ -46,17 +46,33 @@ Item {
         }
 
         delegate: MouseArea {
+            id: mouseArea
             height: listView.height
             width: label.width + Meui.Units.largeSpacing * 2
+            hoverEnabled: true
 
             onClicked: control.placeClicked(model.path)
 
             Rectangle {
                 anchors.fill: parent
                 anchors.margins: 2
-                color: Meui.Theme.highlightColor
+                color: index === listView.count - 1 ? Meui.Theme.highlightColor
+                    : mouseArea.containsMouse ? Meui.Theme.textColor : "transparent"
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 125
+                        easing.type: Easing.InOutCubic
+                    }
+                }
                 radius: Meui.Theme.smallRadius
-                visible: index === listView.count - 1
+                opacity: index === listView.count - 1 ? 1
+                    : mouseArea.containsMouse ? 0.2 : 0
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 125
+                        easing.type: Easing.InOutCubic
+                    }
+                }
 
                 layer.enabled: true
                 layer.effect: DropShadow {
@@ -72,7 +88,14 @@ Item {
             Label {
                 id: label
                 text: model.label
-                color: index === listView.count - 1 ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+                color: index === listView.count - 1 ? Meui.Theme.highlightedTextColor
+                    : Meui.Theme.textColor
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 125
+                        easing.type: Easing.InOutCubic
+                    }
+                }
                 anchors.centerIn: parent
             }
         }

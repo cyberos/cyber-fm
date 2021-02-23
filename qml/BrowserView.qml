@@ -68,6 +68,8 @@ Item {
             id: _listViewBrowser
             anchors.fill: parent
             anchors.bottomMargin: Meui.Units.smallSpacing
+            anchors.leftMargin: Meui.Units.largeSpacing
+            anchors.rightMargin: Meui.Units.largeSpacing
             currentIndex: control.currentIndex
 
             property alias currentFMList : _browserModel.list

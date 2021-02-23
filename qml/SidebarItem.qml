@@ -23,6 +23,12 @@ Item {
                            : mouseArea.containsMouse ? Qt.rgba(Meui.Theme.textColor.r,
                                                                Meui.Theme.textColor.g,
                                                                Meui.Theme.textColor.b, 0.1) : "transparent"
+        Behavior on color {
+            ColorAnimation {
+                duration: 125
+                easing.type: Easing.InOutCubic
+            }
+        }
     }
 
     MouseArea {
@@ -48,17 +54,23 @@ Item {
             sourceSize: Qt.size(width, height)
             Layout.alignment: Qt.AlignVCenter
 
-//            ColorOverlay {
-//                anchors.fill: image
-//                source: image
-//                color: itemTitle.color
-//            }
+        //    ColorOverlay {
+        //        anchors.fill: image
+        //        source: image
+        //        color: itemTitle.color
+        //    }
         }
 
         Label {
             id: itemTitle
             text: item.text
             color: item.checked ? Meui.Theme.highlightedTextColor : Meui.Theme.textColor
+            Behavior on color {
+                ColorAnimation {
+                    duration: 125
+                    easing.type: Easing.InOutCubic
+                }
+            }
             elide: Text.ElideRight
 
             Layout.alignment: Qt.AlignVCenter

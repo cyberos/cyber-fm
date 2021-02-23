@@ -154,6 +154,12 @@ Item {
                 anchors.centerIn: parent
                 color: isCurrentItem ? Meui.Theme.highlightColor :
                     mouseArea.containsMouse ? Meui.Theme.secondBackgroundColor : "transparent"
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 125
+                        easing.type: Easing.InOutCubic
+                    }
+                }
                 radius: Meui.Theme.smallRadius
             }
 
