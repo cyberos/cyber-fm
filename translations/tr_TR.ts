@@ -6,17 +6,17 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni Klasör</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Yapıştır</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Çöpü Boşalt</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya Yok</translation>
     </message>
 </context>
 <context>
@@ -32,37 +32,37 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Aç</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Kes</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaldır</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeniden Adlandır</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Arkaplan Olarak Kullan</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Özellikler</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/main.qml" line="17"/>
         <source>File Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya Yöneticisi</translation>
     </message>
 </context>
 </TS>
