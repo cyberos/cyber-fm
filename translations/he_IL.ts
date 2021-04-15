@@ -11,7 +11,7 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished">לְהַדבִּיק</translation>
+        <translation>הדבקה</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
@@ -32,12 +32,12 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished">לִפְתוֹחַ</translation>
+        <translation>פתיחה</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished">עותק</translation>
+        <translation>העתקה</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
@@ -47,22 +47,22 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished">לְהַסִיר</translation>
+        <translation>הסרה</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
         <source>Rename</source>
-        <translation type="unfinished">שנה שם</translation>
+        <translation>שינוי שם</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation type="unfinished">קבע כרקע</translation>
+        <translation>קבע כרקע שולחן העבודה</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
         <source>Properties</source>
-        <translation type="unfinished">נכסים</translation>
+        <translation>מאפיינים</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/main.qml" line="17"/>
         <source>File Manager</source>
-        <translation type="unfinished">מנהל קבצים</translation>
+        <translation>מנהל הקבצים</translation>
     </message>
 </context>
 </TS>
