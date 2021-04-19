@@ -6,17 +6,17 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation type="unfinished">Нова папка</translation>
+        <translation>Нова директорія</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished">Вставити</translation>
+        <translation>Вставити</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation type="unfinished">Порожній смітник</translation>
+        <translation>Пуста корзина</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation type="unfinished">Немає файлів</translation>
+        <translation>Файли відсутні</translation>
     </message>
 </context>
 <context>
@@ -32,37 +32,37 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished">відчинено</translation>
+        <translation>Відкрити</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished">Копіювати</translation>
+        <translation>Копіювати</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
         <source>Cut</source>
-        <translation type="unfinished">Вирізати</translation>
+        <translation>Вирізати</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished">Видалити</translation>
+        <translation>Видалити</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
         <source>Rename</source>
-        <translation type="unfinished">Перейменувати</translation>
+        <translation>Перейменувати</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation type="unfinished">Встановити як шпалери</translation>
+        <translation>Встановити як шпалери</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
         <source>Properties</source>
-        <translation type="unfinished">Властивості</translation>
+        <translation>Властивості</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/main.qml" line="17"/>
         <source>File Manager</source>
-        <translation type="unfinished">Файловий менеджер</translation>
+        <translation>Оператор файлами</translation>
     </message>
 </context>
 </TS>
