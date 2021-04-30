@@ -37,7 +37,7 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation>拷贝</translation>
+        <translation>复制</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
