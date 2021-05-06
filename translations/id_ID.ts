@@ -6,17 +6,17 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation type="unfinished">Folder baru</translation>
+        <translation>Folder baru</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished">Tempel</translation>
+        <translation>Tempel</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation type="unfinished">Sampah kosong</translation>
+        <translation>Kosongkan sampah</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation type="unfinished">Tidak ada data</translation>
+        <translation>Tidak ada file</translation>
     </message>
 </context>
 <context>
@@ -32,37 +32,37 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished">Buka</translation>
+        <translation>Buka</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished">Salinan</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
         <source>Cut</source>
-        <translation type="unfinished">Memotong</translation>
+        <translation>Potong</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished">Menghapus</translation>
+        <translation>Hapus</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
         <source>Rename</source>
-        <translation type="unfinished">Ganti nama</translation>
+        <translation>Ganti nama</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation type="unfinished">Tetapkan Sebagai Wallpaper</translation>
+        <translation>Tetapkan Sebagai Wallpaper</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
         <source>Properties</source>
-        <translation type="unfinished">Properti</translation>
+        <translation>Properti</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/main.qml" line="17"/>
         <source>File Manager</source>
-        <translation type="unfinished">Manajer File</translation>
+        <translation>Manajer File</translation>
     </message>
 </context>
 </TS>
