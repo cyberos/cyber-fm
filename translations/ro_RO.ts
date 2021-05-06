@@ -6,17 +6,17 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation type="unfinished">Dosar nou</translation>
+        <translation>Folder nou</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished">Paste</translation>
+        <translation>Lipește</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation type="unfinished">Goliți coșul de gunoi</translation>
+        <translation>Goliți coșul de gunoi</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation type="unfinished">Nu există fișiere</translation>
+        <translation>Nu există fișiere</translation>
     </message>
 </context>
 <context>
@@ -32,37 +32,37 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished">Deschideți</translation>
+        <translation>Deschideți</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished">Copiați</translation>
+        <translation>Copiați</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
         <source>Cut</source>
-        <translation type="unfinished">Tăiați</translation>
+        <translation>Tăiați</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished">Eliminați</translation>
+        <translation>Eliminați</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
         <source>Rename</source>
-        <translation type="unfinished">Redenumiți</translation>
+        <translation>Redenumiți</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation type="unfinished">Setați ca tapet</translation>
+        <translation>Setați ca tapet</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
         <source>Properties</source>
-        <translation type="unfinished">Proprietăți</translation>
+        <translation>Proprietăți</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/main.qml" line="17"/>
         <source>File Manager</source>
-        <translation type="unfinished">Manager de fișiere</translation>
+        <translation>Manager de fișiere</translation>
     </message>
 </context>
 </TS>
