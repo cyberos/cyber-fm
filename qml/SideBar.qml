@@ -40,7 +40,7 @@ Item {
                         id: placesList
                         groups: [
                             FMList.PLACES_PATH,
-                            // FMList.DRIVES_PATH
+                            FMList.DRIVES_PATH
                         ]
                     }
                 }
@@ -51,7 +51,7 @@ Item {
                 delegate: SidebarItem {
                     id: listItem
                     text: model.label
-                    iconName: "image://icontheme/" + model.icon
+                    iconName: "qrc:/images/" + model.icon + ".svg"
                     checked: control.currentUrl.toString() === model.path
 
                     onClicked: {

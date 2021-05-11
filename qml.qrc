@@ -16,11 +16,16 @@
         <file>images/light/list.svg</file>
         <file>qml/IconButton.qml</file>
         <file>images/folder-download.svg</file>
-        <file>images/folder-home.svg</file>
         <file>images/folder-music.svg</file>
-        <file>images/folder-picture.svg</file>
-        <file>images/folder-video.svg</file>
-        <file>images/folder-document.svg</file>
+        <file>images/folder-pictures.svg</file>
+        <file>images/folder-videos.svg</file>
+        <file>images/folder-documents.svg</file>
+        <file>images/user-home.svg</file>
+        <file>images/user-desktop.svg</file>
+        <file>images/user-trash.svg</file>
+        <file>images/user-trash.svg</file>
+        <file>images/drive-harddisk.svg</file>
+        <file>images/drive-harddisk-root.svg</file>
         <file>qml/GlobalSettings.qml</file>
         <file>qml/FolderGridView.qml</file>
         <file>qml/FolderIconDelegate.qml</file>
