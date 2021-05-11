@@ -186,22 +186,16 @@ void FMList::setSortBy(const FMList::SORTBY &key)
 void FMList::sortList()
 {
     const FMH::MODEL_KEY key = static_cast<FMH::MODEL_KEY>(this->sort);
-    auto index = 0;
+    auto it = this->list.begin();
 
     if (this->foldersFirst) {
-        std::sort(this->list.begin(), this->list.end(), [&key](const FMH::MODEL &e1, const FMH::MODEL &e2) -> bool {
-            Q_UNUSED(e2)
-            return e1[key] == "inode/directory";
+        // https://invent.kde.org/maui/mauikit-filebrowsing/-/blob/master/src/code/fmlist.cpp#L236
+
+        it = std::partition(this->list.begin(), this->list.end(), [](const FMH::MODEL &e1) -> bool {
+            return e1[FMH::MODEL_KEY::MIME] == "inode/directory";
         });
-        
 
-        for (const auto &item : qAsConst(this->list))
-            if (item[FMH::MODEL_KEY::MIME] == "inode/directory")
-                index++;
-            else
-                break;
-
-        std::sort(this->list.begin(), this->list.begin() + index, [&key](const FMH::MODEL &e1, const FMH::MODEL &e2) -> bool {
+        std::sort(this->list.begin(), it, [&key](const FMH::MODEL &e1, const FMH::MODEL &e2) -> bool {
             switch (key) {
             case FMH::MODEL_KEY::SIZE: {
                 if (e1[key].toDouble() > e2[key].toDouble())
@@ -240,7 +234,7 @@ void FMList::sortList()
         });
     }
 
-    std::sort(this->list.begin() + index, this->list.end(), [key](const FMH::MODEL &e1, const FMH::MODEL &e2) -> bool {
+    std::sort(it, this->list.end(), [key](const FMH::MODEL &e1, const FMH::MODEL &e2) -> bool {
         switch (key) {
         case FMH::MODEL_KEY::MIME:
             if (e1[key] == "inode/directory")
