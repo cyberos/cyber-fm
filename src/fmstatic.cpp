@@ -310,3 +310,16 @@ QString FMStatic::iconName(const QString &value)
 {
     return FMH::getIconName(value);
 }
+
+
+QUrl FMStatic::getFilePath(const QString &path) {
+    return QUrl::fromLocalFile(path);
+}
+
+QString FMStatic::pathToString(const QString &path) {
+    QUrl url(path);
+    url.setScheme("");
+    QString output = url.toString();
+    output.remove(0, 2); // remove additional `//`
+    return output;
+}

@@ -348,6 +348,9 @@ public slots:
      * The file path or file name
      */
     static QString iconName(const QString &value);
+
+    Q_INVOKABLE static QUrl getFilePath(const QString &path);
+    Q_INVOKABLE static QString pathToString(const QString &path);
 };
 
 #endif // FMSTATIC_H

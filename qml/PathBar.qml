@@ -121,10 +121,10 @@ Item {
         selectByMouse: true
         inputMethodHints: Qt.ImhUrlCharactersOnly | Qt.ImhNoAutoUppercase
 
-        text: control.url
+        text: FM.pathToString(String(control.url))
 
         onAccepted: {
-            control.pathChanged(text)
+            control.pathChanged(FM.getFilePath(text))
             closeEditor()
         }
 

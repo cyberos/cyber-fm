@@ -199,7 +199,7 @@ Item {
             const index = control.currentIndex
             const item = control.currentFMModel.get(index)
 
-            if (event.key === Qt.Key_Return)
+            if (event.key === Qt.Key_Return && index !== -1)
                 control.openItem(index)
 
             if ((event.key === Qt.Key_V) && (event.modifiers & Qt.ControlModifier))
