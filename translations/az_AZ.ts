@@ -6,17 +6,17 @@
     <message>
         <location filename="../qml/BrowserMenu.qml" line="14"/>
         <source>New Folder</source>
-        <translation type="unfinished">Yeni qovluq</translation>
+        <translation>Yeni qovluq.</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="24"/>
         <source>Paste</source>
-        <translation type="unfinished">Yapışdır</translation>
+        <translation>Yapışdır.</translation>
     </message>
     <message>
         <location filename="../qml/BrowserMenu.qml" line="31"/>
         <source>Empty Trash</source>
-        <translation type="unfinished">Zibil qutusunu boşaltın</translation>
+        <translation>Boş Zibil qutusu</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../qml/BrowserView.qml" line="47"/>
         <source>No Files</source>
-        <translation type="unfinished">Fayl yoxdur</translation>
+        <translation>Fayl yoxdur.</translation>
     </message>
 </context>
 <context>
@@ -32,12 +32,12 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="23"/>
         <source>Open</source>
-        <translation type="unfinished">Açıq</translation>
+        <translation>Aç</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="31"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopyala</translation>
+        <translation>Surəti</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="39"/>
@@ -47,22 +47,22 @@
     <message>
         <location filename="../qml/ItemMenu.qml" line="47"/>
         <source>Remove</source>
-        <translation type="unfinished">Sil</translation>
+        <translation>Sil</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="57"/>
         <source>Rename</source>
-        <translation type="unfinished">Yenidən adlandırın</translation>
+        <translation>Yenidən adlandırın</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="66"/>
         <source>Set As Wallpaper</source>
-        <translation type="unfinished">Divar kağızı kimi qurun</translation>
+        <translation>Divar kağızı kimi qurun</translation>
     </message>
     <message>
         <location filename="../qml/ItemMenu.qml" line="76"/>
         <source>Properties</source>
-        <translation type="unfinished">Xüsusiyyətlər</translation>
+        <translation>Xüsusiyyətlər</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/main.qml" line="17"/>
         <source>File Manager</source>
-        <translation type="unfinished">Fayl idarəedici</translation>
+        <translation>Fayl idarəedici</translation>
     </message>
 </context>
 </TS>
